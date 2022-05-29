@@ -21,63 +21,25 @@
             <RowDefinition Height="15"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Column="1" Grid.Row="2" Height="400" Width="400"
-              ShowGridLines="True"
-              Name="SnakeField">
-            <Grid.Resources>
-                <Style TargetType="ColumnDefinition">
-                    <Setter Property="Width" Value="*"></Setter>
-                </Style>
-                <Style TargetType="RowDefinition">
-                    <Setter Property="Height" Value="*"></Setter>
-                </Style>
-            </Grid.Resources>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-            </Grid.RowDefinitions>
-            <Border BorderThickness="3"
-                    BorderBrush="LimeGreen"
-                    Grid.ColumnSpan="20"
-                    Grid.RowSpan="20">
-            </Border>
-        </Grid>
+
+        <Border Canvas.Top="5" Canvas.Left="5" 
+                    BorderThickness="5"
+                    BorderBrush="DarkOliveGreen"
+                    Grid.Column="1" Grid.Row="2">
+            
+            <Canvas Name="GameArea"
+                ClipToBounds="True"
+                Width="400" Height="400"
+                >
+            </Canvas>
+        </Border>
+
 
         <StackPanel Grid.Row="1" Grid.Column="1">
             <TextBlock Text="Score: "/>
             <TextBlock Text="Difficulty: "/>
         </StackPanel>
-        
-        
+
+
     </Grid>
 </Window>
