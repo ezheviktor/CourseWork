@@ -1,5 +1,7 @@
-﻿using System;
+﻿using SnakeGame.Model;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,6 +28,8 @@ namespace SnakeGame
         }
         private void StartGameClick(object sender, RoutedEventArgs e)
         {
+            Debug.WriteLine("StartGameClick Worked here");
+            SnakeField snakeField = new SnakeField();
             SnakeGameWindow snake = new SnakeGameWindow();
             snake.Show();
         }
