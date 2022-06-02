@@ -11,8 +11,8 @@ namespace SnakeGame.Model
     {
         #region FieldsAndProperties
         public int FieldSize { get; } = 20;
-        public Cell[,] Field { get; set; }
 
+        private Cell[,] Field { get; set; }
         private Snake MySnake { get; set; }
         #endregion
 
@@ -25,18 +25,19 @@ namespace SnakeGame.Model
             {
                 for (int j = 0; j < FieldSize; j++)
                 {
-                    Field[i, j] = new Cell(Cell.CellTypes.EmptyCell, j, i);
+                    Field[i, j] = new Cell(Cell.CellTypes.EmptyCell, i, j);
                 }
             }
             //initializing snake
             MySnake = new Snake(this);
-
-            TestFieldInit();
         }
         #endregion
 
         #region Methods
-
+        public Cell this[int rowInd, int colInd]
+        {
+            get { return Field[rowInd, colInd]; }
+        }
         #endregion
 
         #region Test

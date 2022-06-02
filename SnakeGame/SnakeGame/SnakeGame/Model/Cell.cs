@@ -18,16 +18,16 @@ namespace SnakeGame.Model
         }
         public CellTypes CellType  { get ; set ; }
 
-        public int CoordX { get; set; }
-        public int CoordY { get; set; }
+        public int ColCoord { get; set; }
+        public int RowCoord { get; set; }
         #endregion
 
         #region Constructors
-        public Cell(CellTypes cellType, int coordX, int coordY)
+        public Cell(CellTypes cellType, int RowCoord, int ColCoord)
         {
             CellType = cellType;
-            CoordX = coordX;
-            CoordY = coordY;
+            this.RowCoord = RowCoord;
+            this.ColCoord = ColCoord;
         }
         #endregion
 

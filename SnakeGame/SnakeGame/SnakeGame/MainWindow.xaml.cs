@@ -28,8 +28,8 @@ namespace SnakeGame
         }
         private void StartGameClick(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine("StartGameClick Worked here");
             SnakeField snakeField = new SnakeField();
+            snakeField.TestFieldInit();
             SnakeGameWindow snake = new SnakeGameWindow();
             snake.Show();
         }
