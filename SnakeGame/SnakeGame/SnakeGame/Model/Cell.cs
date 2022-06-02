@@ -12,9 +12,8 @@ namespace SnakeGame.Model
         public enum CellTypes
         {
             EmptyCell,
-            FruitCell,
+            FoodCell,
             SnakeCell,
-            SnakeHeadCell
         }
         public CellTypes CellType  { get ; set ; }
 

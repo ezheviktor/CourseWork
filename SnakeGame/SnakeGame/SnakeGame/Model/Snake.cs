@@ -7,18 +7,33 @@ using System.Threading.Tasks;
 
 namespace SnakeGame.Model
 {
-    internal class Snake : IEnumerable
+    internal class Snake
     {
+        #region Events
+        public event Action NotifySnakeIsDead;
+        #endregion
+
+        #region Fields and Properties
         public enum MovementDirections
         {
             Left, Up, Right, Down
         }
-
-        #region Fields and Properties
-        public int _snakeInitLength = 4;
-        public int SnakeHeadIndex { get; } = 0;
-        public bool IsDead { get; set; }
         public MovementDirections SnakeDirection { get; set; }
+
+        private bool isDead;
+        public bool IsDead
+        {
+            get => isDead;
+            set
+            {
+                if (value == true)
+                    isDead = value;
+                //NotifySnakeIsDead;
+            }
+        }
+        public int _snakeInitLength = 4;
+
+        public int SnakeHeadIndex { get; } = 0;
         public List<Cell> SnakeCells { get; set; }
 
         public SnakeField Field { get; init; }
@@ -72,26 +87,31 @@ namespace SnakeGame.Model
             switch (SnakeDirection)
             {
                 case MovementDirections.Up:
-                    deltaCol = 1;
+                    deltaRow = -1;
                     break;
                 case MovementDirections.Right:
-                    deltaRow = 1;
+                    deltaCol = 1;
                     break;
                 case MovementDirections.Down:
-                    deltaCol = -1;
+                    deltaRow = 1;
                     break;
                 case MovementDirections.Left:
-                    deltaRow = -1;
+                    deltaCol = -1;
                     break;
             }
             //refactoring needed here
             //the trick is that we divide final coordinates by twenty to take into acoount he fact that we can cross the border and coordianted will drop
-            return Field[(SnakeCells[SnakeHeadIndex].RowCoord + deltaRow) % Field.FieldSize, (SnakeCells[SnakeHeadIndex].RowCoord + deltaCol) % Field.FieldSize];
+            int RowCoord = SnakeCells[SnakeHeadIndex].RowCoord + deltaRow;
+            int ColCoord = SnakeCells[SnakeHeadIndex].ColCoord + deltaCol;
+
+            RowCoord = RowCoord >= 0 ? (RowCoord % 20) : (RowCoord + Field.FieldSize);
+            ColCoord=ColCoord>=0? (ColCoord % 20) : (ColCoord + Field.FieldSize);
+            return Field[RowCoord, ColCoord];
         }
 
         public void MoveOneStep()
         {
-            RemoveCellAt(SnakeCells.Count);
+            RemoveCellAt(SnakeCells.Count-1);
             AddCellAt(SnakeHeadIndex, GetNextCell());
         }
 
@@ -120,11 +140,6 @@ namespace SnakeGame.Model
                         break;
                 }
             }
-        }
-
-        public IEnumerator GetEnumerator()
-        {
-            return SnakeCells.GetEnumerator();
         }
         #endregion
     }

@@ -13,7 +13,8 @@ namespace SnakeGame.Model
         public int FieldSize { get; } = 20;
 
         private Cell[,] Field { get; set; }
-        private Snake MySnake { get; set; }
+        public Snake MySnake { get; set; }
+        public Food MyFood { get; set; }
         #endregion
 
         #region Constructors
@@ -30,6 +31,8 @@ namespace SnakeGame.Model
             }
             //initializing snake
             MySnake = new Snake(this);
+            //initializing food
+            MyFood=new Food(this);
         }
         #endregion
 
@@ -38,10 +41,15 @@ namespace SnakeGame.Model
         {
             get { return Field[rowInd, colInd]; }
         }
+        public void SnakeFieldUpdate()
+        {
+            MySnake.SnakeUpdate();
+            MyFood.UpdateFood();
+        }
         #endregion
 
         #region Test
-        public void TestFieldInit()
+        public void TestFieldDebuggerDisplay()
         {
             for (int i = 0; i < FieldSize; i++)
             {
@@ -51,6 +59,21 @@ namespace SnakeGame.Model
                 }
                 Debug.WriteLine("\n");
             }
+            Debug.WriteLine("----------------------------------------------------------------------");
+            Debug.WriteLine("");
+            Debug.WriteLine("");
+        }
+        public void CheckBorderCrossing()
+        {
+            for (int i = 0; i < 15; i++)
+            {
+                TestFieldDebuggerDisplay();
+                SnakeFieldUpdate();
+            }
+        }
+        public void CheckSnakeDeath()
+        {
+            
         }
         #endregion
     }
