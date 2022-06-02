@@ -28,8 +28,6 @@ namespace SnakeGame
         }
         private void StartGameClick(object sender, RoutedEventArgs e)
         {
-            SnakeField snakeField = new SnakeField();
-            snakeField.CheckBorderCrossing();
             SnakeGameWindow snake = new SnakeGameWindow();
             snake.Show();
         }

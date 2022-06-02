@@ -16,9 +16,21 @@ namespace SnakeGame.Model
         #region Fields and Properties
         public enum MovementDirections
         {
-            Left, Up, Right, Down
+            Left = 0,
+            Up = 1,
+            Right = 2,
+            Down = 3,
         }
-        public MovementDirections SnakeDirection { get; set; }
+        private MovementDirections snakeDirection;
+        public MovementDirections SnakeDirection
+        {
+            get { return snakeDirection; }
+            set
+            {
+                if (value is MovementDirections && !Convert.ToBoolean(((int)value + (int)SnakeDirection) % 2))
+                    SnakeDirection = value;
+            }
+        }
 
         private bool isDead;
         public bool IsDead
@@ -105,13 +117,13 @@ namespace SnakeGame.Model
             int ColCoord = SnakeCells[SnakeHeadIndex].ColCoord + deltaCol;
 
             RowCoord = RowCoord >= 0 ? (RowCoord % 20) : (RowCoord + Field.FieldSize);
-            ColCoord=ColCoord>=0? (ColCoord % 20) : (ColCoord + Field.FieldSize);
+            ColCoord = ColCoord >= 0 ? (ColCoord % 20) : (ColCoord + Field.FieldSize);
             return Field[RowCoord, ColCoord];
         }
 
         public void MoveOneStep()
         {
-            RemoveCellAt(SnakeCells.Count-1);
+            RemoveCellAt(SnakeCells.Count - 1);
             AddCellAt(SnakeHeadIndex, GetNextCell());
         }
 
@@ -141,6 +153,7 @@ namespace SnakeGame.Model
                 }
             }
         }
+
         #endregion
     }
 }

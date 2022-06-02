@@ -71,10 +71,10 @@ namespace SnakeGame.Model
                 SnakeFieldUpdate();
             }
         }
-        public void CheckSnakeDeath()
-        {
+        //public void CheckSnakeDeath()
+        //{
             
-        }
+        //}
         #endregion
     }
 }
