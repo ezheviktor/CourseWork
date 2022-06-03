@@ -8,9 +8,22 @@ namespace SnakeGame.Model
 {
     internal class Food
     {
+        #region Events
+        public event Action<Food> NotifyFoodIsEaten;
+        #endregion
+
         #region Fields
         public Cell FoodCell { get; set; }
-        public bool IsEaten { get; set; }
+        private bool isEaten;
+        public bool IsEaten
+        {
+            get => isEaten;
+            set
+            {
+                isEaten = value;
+                NotifyFoodIsEaten?.Invoke(this);
+            }
+        }
         public int ScoreValue { get; set; } = 100;
 
         public SnakeField Field { get; init; }
@@ -31,8 +44,8 @@ namespace SnakeGame.Model
             Cell RandomCellOnField;
             do
             {
-                RandomCellOnField = Field[random.Next(0, Field.FieldSize), random.Next(0, Field.FieldSize)]; 
-            } while (RandomCellOnField.CellType!=Cell.CellTypes.EmptyCell);
+                RandomCellOnField = Field[random.Next(0, Field.FieldSize), random.Next(0, Field.FieldSize)];
+            } while (RandomCellOnField.CellType != Cell.CellTypes.EmptyCell);
             FoodCell = RandomCellOnField;
             FoodCell.CellType = Cell.CellTypes.FoodCell;
             IsEaten = false;

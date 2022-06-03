@@ -30,25 +30,41 @@ namespace SnakeGame
         }
         private bool LastKeyPressedChanged { get; set; }
 
-        private bool IsInGame { get; set; }
+        private enum GameStates
+        {
+            InGame, NotInGame, Paused
+        }
+        private GameStates GameState { get; set; }
+        //private bool IsInGame { get; set; }
         private SnakeField Field { get; set; }
-#endregion
+        private ScoreCounter Counter { get; set; }
+        private SnakeGameFileManager FileManager { get; set; }
+        #endregion
 
         public SnakeGameWindow()
         {
             InitializeComponent();
-            IsInGame = false;
-            Field = new SnakeField();
             LastKeyPressedChanged = false;
+            Field = new SnakeField();
+            Counter = new ScoreCounter();
+            FileManager = new SnakeGameFileManager();
+            //this.Resources.Add("Field", Field);
+
+
+            //IsInGame = false;
+            GameState=GameStates.NotInGame;
         }
 
         private void Window_ContentRendered(object sender, EventArgs e)
         {
-            IsInGame = true;
+            //IsInGame = true;
+            GameState = GameStates.InGame;
 
-            Field.MySnake.NotifySnakeIsDead += () => { IsInGame = false; };
+            Field.MySnake.NotifySnakeIsDead += () => { /*IsInGame = false;*/ GameState = GameStates.NotInGame; };
+            Field.MySnake.NotifySnakeIsDead += () => { FileManager.SaveScoreToFile(Counter); };
+            Field.MyFood.NotifyFoodIsEaten += (Food eatenFood) => { Counter.AddToScore(eatenFood.ScoreValue); };
 
-            while (IsInGame)
+            while (GameState == GameStates.InGame)
             {
                 if(LastKeyPressedChanged)
                 {
@@ -57,6 +73,7 @@ namespace SnakeGame
                         Field.MySnake.SnakeDirection = (Snake.MovementDirections)newDirection;
                 }
                 Field.SnakeFieldUpdate();
+                Field.TestFieldDebuggerDisplay();//////
 
             }
         }
@@ -73,16 +90,12 @@ namespace SnakeGame
             {
                 case Key.Left:
                     return Snake.MovementDirections.Left;
-                    break;
                 case Key.Right:
                     return Snake.MovementDirections.Right;
-                    break;
                 case Key.Up:
                     return Snake.MovementDirections.Up;
-                    break;
                 case Key.Down:
                     return Snake.MovementDirections.Down;
-                    break;
                 default: return null;
             }
         }
