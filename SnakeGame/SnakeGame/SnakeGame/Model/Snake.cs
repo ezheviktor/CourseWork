@@ -38,9 +38,9 @@ namespace SnakeGame.Model
             get => isDead;
             set
             {
+                isDead = value;
                 if (value == true)
-                    isDead = value;
-                //NotifySnakeIsDead;
+                    NotifySnakeIsDead?.Invoke();
             }
         }
         public int _snakeInitLength = 4;
