@@ -7,8 +7,10 @@
         mc:Ignorable="d"
         Title="SnakeGameWindow"
         SizeToContent="WidthAndHeight"
-        WindowStartupLocation="CenterScreen">
-    <Grid>
+        WindowStartupLocation="CenterScreen"
+        ContentRendered="Window_ContentRendered"
+        KeyDown="Grid_KeyDown">
+    <Grid >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="15"></ColumnDefinition>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -34,6 +36,13 @@
                     <Style TargetType="RowDefinition">
                         <Setter Property="Height" Value="*"></Setter>
                     </Style>
+                    <!--<local:SnakeFieldConverter x:Key="SnakeFieldConverter"/>
+                    <Style TargetType="Grid">
+                        <Setter Property="Background"
+                                Value="{Binding Source={StaticResource Field},
+                            ConverterParameter=
+                            Converter={StaticResource SnakeFieldConverter} }"
+                    </Style>-->
                 </Grid.Resources>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
@@ -51,8 +60,18 @@
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>

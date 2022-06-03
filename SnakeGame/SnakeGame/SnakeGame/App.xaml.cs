@@ -13,5 +13,12 @@ namespace SnakeGame
     /// </summary>
     public partial class App : Application
     {
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            SnakeGame.MainWindow window = new SnakeGame.MainWindow();
+            window.Show();
+            //SnakeGame.Model.SnakeField fieldTemp = new Model.SnakeField();
+            //fieldTemp.TestCheckBorderCrossing();
+        }
     }
 }

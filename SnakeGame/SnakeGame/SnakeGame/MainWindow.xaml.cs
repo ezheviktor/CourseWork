@@ -25,6 +25,7 @@ namespace SnakeGame
         public MainWindow()
         {
             InitializeComponent();
+            
         }
         private void StartGameClick(object sender, RoutedEventArgs e)
         {

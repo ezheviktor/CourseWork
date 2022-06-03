@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace SnakeGame
 {
@@ -35,10 +36,14 @@ namespace SnakeGame
             InGame, NotInGame, Paused
         }
         private GameStates GameState { get; set; }
-        //private bool IsInGame { get; set; }
         private SnakeField Field { get; set; }
         private ScoreCounter Counter { get; set; }
         private SnakeGameFileManager FileManager { get; set; }
+
+        /// <summary>
+        private DispatcherTimer DispatcherTimer { get; set; }
+        private double UpdateFrequencySec { get; set; }
+        /// </summary>
         #endregion
 
         public SnakeGameWindow()
@@ -48,34 +53,58 @@ namespace SnakeGame
             Field = new SnakeField();
             Counter = new ScoreCounter();
             FileManager = new SnakeGameFileManager();
+            GameState=GameStates.NotInGame;
+
+            /////////////////////////////////
+            UpdateFrequencySec = 1;
+            DispatcherTimer = new DispatcherTimer()
+            {
+                Interval = TimeSpan.FromSeconds(UpdateFrequencySec)
+            };
+            DispatcherTimer.Tick += DispatcherTimer_Tick;
             //this.Resources.Add("Field", Field);
 
-
-            //IsInGame = false;
-            GameState=GameStates.NotInGame;
+            for (int i = 0; i < Field.FieldSize; i++)
+            {
+                for (int j = 0; j < Field.FieldSize; j++)
+                {
+                    Grid myGrid = new Grid();
+                    myGrid.SetValue(Grid.RowProperty, i);
+                    myGrid.SetValue(Grid.ColumnProperty, j);
+                    Binding myBinding = new Binding();
+                    myBinding.Source = Field[i, j];
+                    myBinding.Converter=new SnakeFieldConverter();
+                    myGrid.SetBinding(Grid.BackgroundProperty, myBinding);
+                    SnakeField.Children.Add(myGrid);
+                }
+            }
         }
 
-        private void Window_ContentRendered(object sender, EventArgs e)
+        private void DispatcherTimer_Tick(object? sender, EventArgs e)
         {
-            //IsInGame = true;
-            GameState = GameStates.InGame;
-
-            Field.MySnake.NotifySnakeIsDead += () => { /*IsInGame = false;*/ GameState = GameStates.NotInGame; };
-            Field.MySnake.NotifySnakeIsDead += () => { FileManager.SaveScoreToFile(Counter); };
-            Field.MyFood.NotifyFoodIsEaten += (Food eatenFood) => { Counter.AddToScore(eatenFood.ScoreValue); };
-
-            while (GameState == GameStates.InGame)
+            if (GameState == GameStates.InGame)
             {
-                if(LastKeyPressedChanged)
+                if (LastKeyPressedChanged)
                 {
                     Snake.MovementDirections? newDirection = GetDirection(LastKeyPressed);
                     if (newDirection != null)
                         Field.MySnake.SnakeDirection = (Snake.MovementDirections)newDirection;
                 }
                 Field.SnakeFieldUpdate();
-                Field.TestFieldDebuggerDisplay();//////
+                //Field.TestFieldDebuggerDisplay();//////
 
             }
+        }
+
+        private void Window_ContentRendered(object sender, EventArgs e)
+        {
+            GameState = GameStates.InGame;
+
+            Field.MySnake.NotifySnakeIsDead += () => { GameState = GameStates.NotInGame; };
+            Field.MySnake.NotifySnakeIsDead += () => { FileManager.SaveScoreToFile(Counter); };
+            Field.MyFood.NotifyFoodIsEaten += (Food eatenFood) => { Counter.AddToScore(eatenFood.ScoreValue); };
+            DispatcherTimer.Start();
+            
         }
 
         private void Grid_KeyDown(object sender, KeyEventArgs e)
@@ -99,6 +128,7 @@ namespace SnakeGame
                 default: return null;
             }
         }
+
 
     }
 }
