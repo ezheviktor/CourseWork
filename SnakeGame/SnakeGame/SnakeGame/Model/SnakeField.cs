@@ -63,7 +63,7 @@ namespace SnakeGame.Model
             Debug.WriteLine("");
             Debug.WriteLine("");
         }
-        public void CheckBorderCrossing()
+        public void TestCheckBorderCrossing()
         {
             for (int i = 0; i < 15; i++)
             {
@@ -71,10 +71,25 @@ namespace SnakeGame.Model
                 SnakeFieldUpdate();
             }
         }
-        //public void CheckSnakeDeath()
-        //{
-            
-        //}
+        public void TestCheckSnakeDeath()
+        {
+            TestFieldDebuggerDisplay();
+
+            MySnake.SnakeDirection = Snake.MovementDirections.Up;
+            SnakeFieldUpdate();
+            Debug.WriteLine(MySnake.IsDead);
+            TestFieldDebuggerDisplay();
+
+            MySnake.SnakeDirection = Snake.MovementDirections.Right;
+            SnakeFieldUpdate();
+            Debug.WriteLine(MySnake.IsDead);
+            TestFieldDebuggerDisplay();
+
+            MySnake.SnakeDirection = Snake.MovementDirections.Down;
+            SnakeFieldUpdate();
+            Debug.WriteLine(MySnake.IsDead);
+            TestFieldDebuggerDisplay();
+        }
         #endregion
     }
 }

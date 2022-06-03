@@ -22,13 +22,13 @@ namespace SnakeGame.Model
             Down = 3,
         }
         private MovementDirections snakeDirection;
-        public MovementDirections SnakeDirection
+        public MovementDirections SnakeDirection //needs refactoring to make logic more transparent
         {
             get { return snakeDirection; }
             set
             {
-                if (value is MovementDirections && !Convert.ToBoolean(((int)value + (int)SnakeDirection) % 2))
-                    SnakeDirection = value;
+                if (Convert.ToBoolean(((int)value + (int)SnakeDirection) % 2))
+                    snakeDirection = value;
             }
         }
 
