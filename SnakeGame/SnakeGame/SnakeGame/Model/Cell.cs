@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SnakeGame.Model
 {
-    internal class Cell
+    internal class Cell : INotifyPropertyChanged
     {
         #region Fields
         public enum CellTypes
@@ -15,7 +16,16 @@ namespace SnakeGame.Model
             FoodCell,
             SnakeCell,
         }
-        public CellTypes CellType  { get ; set ; }
+        private CellTypes cellType;
+        public CellTypes CellType
+        {
+            get => cellType;
+            set
+            {
+                cellType = value;
+                OnPropertyChanged(nameof(CellType));
+            }
+        }
 
         public int ColCoord { get; set; }
         public int RowCoord { get; set; }
@@ -27,6 +37,12 @@ namespace SnakeGame.Model
             CellType = cellType;
             this.RowCoord = RowCoord;
             this.ColCoord = ColCoord;
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected void OnPropertyChanged(string propertyName)
+        {
+              PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
 

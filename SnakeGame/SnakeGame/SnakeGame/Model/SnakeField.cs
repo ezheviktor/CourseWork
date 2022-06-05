@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -7,12 +8,20 @@ using System.Threading.Tasks;
 
 namespace SnakeGame.Model
 {
-    internal class SnakeField
+    internal class SnakeField 
     {
         #region FieldsAndProperties
         public int FieldSize { get; } = 20;
 
-        private Cell[,] Field { get; set; }
+        private Cell[,] field;
+        private Cell[,] Field
+        {
+            get => field;
+            set
+            {
+                field = value;
+            }
+        }
         public Snake MySnake { get; set; }
         public Food MyFood { get; set; }
         #endregion
@@ -32,7 +41,7 @@ namespace SnakeGame.Model
             //initializing snake
             MySnake = new Snake(this);
             //initializing food
-            MyFood=new Food(this);
+            MyFood = new Food(this);
         }
         #endregion
 
@@ -41,6 +50,8 @@ namespace SnakeGame.Model
         {
             get { return Field[rowInd, colInd]; }
         }
+
+
         public void SnakeFieldUpdate()
         {
             MySnake.SnakeUpdate();
@@ -55,7 +66,7 @@ namespace SnakeGame.Model
             {
                 for (int j = 0; j < FieldSize; j++)
                 {
-                    Debug.Write((int)Field[i, j].CellType+" ");
+                    Debug.Write((int)Field[i, j].CellType + " ");
                 }
                 Debug.WriteLine("\n");
             }

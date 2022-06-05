@@ -18,7 +18,7 @@ namespace SnakeGame
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value == null) throw new ArgumentNullException();
-            switch((value as Cell)?.CellType)
+            switch(value )
             {
                 case Cell.CellTypes.EmptyCell:
                     return Brushes.AliceBlue;

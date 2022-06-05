@@ -24,8 +24,8 @@ namespace SnakeGame
     {
         #region Fields and properties
         private KeyEventArgs lastKeyPressed;
-        private KeyEventArgs LastKeyPressed 
-        { 
+        private KeyEventArgs LastKeyPressed
+        {
             get => lastKeyPressed;
             set { lastKeyPressed = value; LastKeyPressedChanged = true; }
         }
@@ -53,16 +53,13 @@ namespace SnakeGame
             Field = new SnakeField();
             Counter = new ScoreCounter();
             FileManager = new SnakeGameFileManager();
-            GameState=GameStates.NotInGame;
+            GameState = GameStates.NotInGame;
 
             /////////////////////////////////
-            UpdateFrequencySec = 1;
-            DispatcherTimer = new DispatcherTimer()
-            {
-                Interval = TimeSpan.FromSeconds(UpdateFrequencySec)
-            };
+            UpdateFrequencySec = 0.25;
+            DispatcherTimer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(UpdateFrequencySec)};
             DispatcherTimer.Tick += DispatcherTimer_Tick;
-            //this.Resources.Add("Field", Field);
+            /////////////////////////////////
 
             for (int i = 0; i < Field.FieldSize; i++)
             {
@@ -71,14 +68,26 @@ namespace SnakeGame
                     Grid myGrid = new Grid();
                     myGrid.SetValue(Grid.RowProperty, i);
                     myGrid.SetValue(Grid.ColumnProperty, j);
-                    Binding myBinding = new Binding();
-                    myBinding.Source = Field[i, j];
-                    myBinding.Converter=new SnakeFieldConverter();
-                    myGrid.SetBinding(Grid.BackgroundProperty, myBinding);
+                    Binding myBinding = new Binding
+                    {
+                        Source = Field[i,j],
+                        Path = new PropertyPath($"CellType"),
+                        Converter = new SnakeFieldConverter(),
+                        UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+                    };
                     SnakeField.Children.Add(myGrid);
+                    myGrid.SetBinding(Grid.BackgroundProperty, myBinding);
+
                 }
             }
         }
+
+
+
+
+
+
+
 
         private void DispatcherTimer_Tick(object? sender, EventArgs e)
         {
@@ -91,7 +100,6 @@ namespace SnakeGame
                         Field.MySnake.SnakeDirection = (Snake.MovementDirections)newDirection;
                 }
                 Field.SnakeFieldUpdate();
-                //Field.TestFieldDebuggerDisplay();//////
 
             }
         }
@@ -104,7 +112,7 @@ namespace SnakeGame
             Field.MySnake.NotifySnakeIsDead += () => { FileManager.SaveScoreToFile(Counter); };
             Field.MyFood.NotifyFoodIsEaten += (Food eatenFood) => { Counter.AddToScore(eatenFood.ScoreValue); };
             DispatcherTimer.Start();
-            
+
         }
 
         private void Grid_KeyDown(object sender, KeyEventArgs e)
@@ -132,3 +140,4 @@ namespace SnakeGame
 
     }
 }
+
