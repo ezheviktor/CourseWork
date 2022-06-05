@@ -22,12 +22,11 @@
             <RowDefinition Height="Auto" ></RowDefinition>
             <RowDefinition Height="15"></RowDefinition>
         </Grid.RowDefinitions>
-       
+
         <Border BorderThickness="3"
                 BorderBrush="LimeGreen"
                 Grid.Column="1" Grid.Row="2">
-            <Canvas Height="400" Width="400" Name="CanvasTest">
-                
+
             <Grid  Height="400" Width="400"
               ShowGridLines="True"
               Name="SnakeField">
@@ -35,10 +34,10 @@
                     <Style TargetType="ColumnDefinition">
                         <Setter Property="Width" Value="*"></Setter>
                     </Style>
-                        <Style TargetType="RowDefinition">
-                            <Setter Property="Height" Value="*"></Setter>
-                        </Style>
-                    </Grid.Resources>
+                    <Style TargetType="RowDefinition">
+                        <Setter Property="Height" Value="*"></Setter>
+                    </Style>
+                </Grid.Resources>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
@@ -85,7 +84,6 @@
                 </Grid.RowDefinitions>
 
             </Grid>
-            </Canvas>
 
         </Border>
 
