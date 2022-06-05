@@ -8,8 +8,8 @@
         Title="SnakeGameWindow"
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterScreen"
-        ContentRendered="Window_ContentRendered"
-        KeyDown="Grid_KeyDown">
+        KeyDown="Grid_KeyDown"
+        x:Name="GameWindow">
     <Grid >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="15"></ColumnDefinition>
@@ -26,6 +26,8 @@
         <Border BorderThickness="3"
                 BorderBrush="LimeGreen"
                 Grid.Column="1" Grid.Row="2">
+            <Canvas Height="400" Width="400" Name="CanvasTest">
+                
             <Grid  Height="400" Width="400"
               ShowGridLines="True"
               Name="SnakeField">
@@ -33,17 +35,10 @@
                     <Style TargetType="ColumnDefinition">
                         <Setter Property="Width" Value="*"></Setter>
                     </Style>
-                    <Style TargetType="RowDefinition">
-                        <Setter Property="Height" Value="*"></Setter>
-                    </Style>
-                    <!--<local:SnakeFieldConverter x:Key="SnakeFieldConverter"/>
-                    <Style TargetType="Grid">
-                        <Setter Property="Background"
-                                Value="{Binding Source={StaticResource Field},
-                            ConverterParameter=
-                            Converter={StaticResource SnakeFieldConverter} }"
-                    </Style>-->
-                </Grid.Resources>
+                        <Style TargetType="RowDefinition">
+                            <Setter Property="Height" Value="*"></Setter>
+                        </Style>
+                    </Grid.Resources>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
@@ -90,6 +85,7 @@
                 </Grid.RowDefinitions>
 
             </Grid>
+            </Canvas>
 
         </Border>
 

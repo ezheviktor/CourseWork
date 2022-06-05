@@ -7,21 +7,21 @@ using System.Threading.Tasks;
 
 namespace SnakeGame.Model
 {
-    internal class SnakeGameFileManager
+    internal static class SnakeGameFileManager
     {
         #region Fields
-        private string ScoreFileName { get; set; }
+        private static string ScoreFileName { get; set; }
         #endregion
 
         #region Constructors
-        public SnakeGameFileManager()
+        static SnakeGameFileManager()
         {
             ScoreFileName = "ScoreCounterLog";
         }
         #endregion
 
         #region Methods
-        public void SaveScoreToFile(ScoreCounter newScore)
+        public static void SaveScoreToFile(ScoreCounter newScore)
         {
             using StreamWriter writer = new StreamWriter(File.Open(ScoreFileName, FileMode.OpenOrCreate));
             {
@@ -29,7 +29,7 @@ namespace SnakeGame.Model
             }
         }
 
-        public List<int> GetScoresFromFile()
+        public static List<int> GetScoresFromFile()
         {
             List<int> scores = new List<int>();
             using (StreamReader reader = new StreamReader(File.Open(ScoreFileName, FileMode.Open)))

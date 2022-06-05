@@ -11,6 +11,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
@@ -22,97 +23,75 @@ namespace SnakeGame
     /// </summary>
     public partial class SnakeGameWindow : Window
     {
-        #region Fields and properties
+        #region Events
+        internal event Action<KeyEventArgs> NotifyLastKeyPressedChanged;
+        //public event Action NotifyUpdateFrequencyChanged;
+        internal event Action<GameStates> NotifyGameStateChanged;
+        #endregion
+        #region Fields 
         private KeyEventArgs lastKeyPressed;
+        //private double updateFrequencySec;
+        private GameStates gameState;
+
+        #endregion
+
+        #region Properties
+        internal SnakeField Field { get; set; }
+        internal ScoreCounter ScoreCounter { get; set; }
+        public DispatcherTimer Timer { get; set; }
         private KeyEventArgs LastKeyPressed
         {
             get => lastKeyPressed;
-            set { lastKeyPressed = value; LastKeyPressedChanged = true; }
+            set { lastKeyPressed = value; NotifyLastKeyPressedChanged?.Invoke(value); }
         }
-        private bool LastKeyPressedChanged { get; set; }
-
-        private enum GameStates
+        //public double UpdateFrequencySec
+        //{
+        //    get => updateFrequencySec;
+        //    set { updateFrequencySec = value; NotifyUpdateFrequencyChanged?.Invoke(); }
+        //}
+        internal GameStates GameState
         {
-            InGame, NotInGame, Paused
+            get => gameState; set{ gameState = value; NotifyGameStateChanged?.Invoke(value); }
         }
-        private GameStates GameState { get; set; }
-        private SnakeField Field { get; set; }
-        private ScoreCounter Counter { get; set; }
-        private SnakeGameFileManager FileManager { get; set; }
-
-        /// <summary>
-        private DispatcherTimer DispatcherTimer { get; set; }
-        private double UpdateFrequencySec { get; set; }
-        /// </summary>
         #endregion
 
         public SnakeGameWindow()
         {
             InitializeComponent();
-            LastKeyPressedChanged = false;
+
             Field = new SnakeField();
-            Counter = new ScoreCounter();
-            FileManager = new SnakeGameFileManager();
-            GameState = GameStates.NotInGame;
+            ScoreCounter = new ScoreCounter();
+            Timer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(0.2), };
+            GameState = GameStates.InGame;
+            BindFieldToGrid();
+            SubscribeToEvents();
 
-            /////////////////////////////////
-            UpdateFrequencySec = 0.25;
-            DispatcherTimer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(UpdateFrequencySec)};
-            DispatcherTimer.Tick += DispatcherTimer_Tick;
-            /////////////////////////////////
+            //UpdateFrequencySec = 0.25;
+            Timer.Start();
 
+        }
+
+        private void BindFieldToGrid()
+        {
             for (int i = 0; i < Field.FieldSize; i++)
             {
                 for (int j = 0; j < Field.FieldSize; j++)
                 {
-                    Grid myGrid = new Grid();
-                    myGrid.SetValue(Grid.RowProperty, i);
-                    myGrid.SetValue(Grid.ColumnProperty, j);
+                    Grid innerGrid = new Grid();
+                    innerGrid.SetValue(Grid.RowProperty, i);
+                    innerGrid.SetValue(Grid.ColumnProperty, j);
                     Binding myBinding = new Binding
                     {
-                        Source = Field[i,j],
+                        Source = Field[i, j],
                         Path = new PropertyPath($"CellType"),
                         Converter = new SnakeFieldConverter(),
                         UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
                     };
-                    SnakeField.Children.Add(myGrid);
-                    myGrid.SetBinding(Grid.BackgroundProperty, myBinding);
+                    SnakeField.Children.Add(innerGrid);
+                    innerGrid.SetBinding(Grid.BackgroundProperty, myBinding);
 
                 }
             }
-        }
-
-
-
-
-
-
-
-
-        private void DispatcherTimer_Tick(object? sender, EventArgs e)
-        {
-            if (GameState == GameStates.InGame)
-            {
-                if (LastKeyPressedChanged)
-                {
-                    Snake.MovementDirections? newDirection = GetDirection(LastKeyPressed);
-                    if (newDirection != null)
-                        Field.MySnake.SnakeDirection = (Snake.MovementDirections)newDirection;
-                }
-                Field.SnakeFieldUpdate();
-
-            }
-        }
-
-        private void Window_ContentRendered(object sender, EventArgs e)
-        {
-            GameState = GameStates.InGame;
-
-            Field.MySnake.NotifySnakeIsDead += () => { GameState = GameStates.NotInGame; };
-            Field.MySnake.NotifySnakeIsDead += () => { FileManager.SaveScoreToFile(Counter); };
-            Field.MyFood.NotifyFoodIsEaten += (Food eatenFood) => { Counter.AddToScore(eatenFood.ScoreValue); };
-            DispatcherTimer.Start();
-
         }
 
         private void Grid_KeyDown(object sender, KeyEventArgs e)
@@ -120,24 +99,96 @@ namespace SnakeGame
             LastKeyPressed = e;
         }
 
-        //needed refactoring( method can retuen null in some cases)
-        private Snake.MovementDirections? GetDirection(KeyEventArgs keyEvent)
+        private void LastKeyPressedChanged_Handler(KeyEventArgs e)
         {
-            switch (keyEvent.Key)
+            TryChangeSnakeDirection(e);
+            TryChangeGameState(e);
+        }
+
+        //private void UpdateFrequencyChanged_Handler()
+        //{
+        //    Timer.Interval = TimeSpan.FromSeconds(UpdateFrequencySec);
+        //}
+
+        private void StateGameChanged_Handler(GameStates state)
+        {
+            switch(state)
             {
-                case Key.Left:
-                    return Snake.MovementDirections.Left;
-                case Key.Right:
-                    return Snake.MovementDirections.Right;
-                case Key.Up:
-                    return Snake.MovementDirections.Up;
-                case Key.Down:
-                    return Snake.MovementDirections.Down;
-                default: return null;
+                case GameStates.Paused:
+                    PauseGame();
+                    break;
+                case GameStates.InGame:
+                    RunGame();
+                    break;
+                    
             }
         }
 
+        private void DispatcherTimer_Tick(object? sender, EventArgs e)
+        {
+            if (GameState == GameStates.InGame)
+            {
+                Field.SnakeFieldUpdate();
+            }
+        }
 
+        private void SubscribeToEvents()
+        {
+            Field.MySnake.NotifySnakeIsDead += () => { GameState = GameStates.NotInGame; };
+            Field.MySnake.NotifySnakeIsDead += () => { SnakeGameFileManager.SaveScoreToFile(ScoreCounter); };
+            Field.MyFood.NotifyFoodIsEaten += (Food eatenFood) => { ScoreCounter.AddToScore(eatenFood.ScoreValue); };
+            NotifyLastKeyPressedChanged += LastKeyPressedChanged_Handler;
+            //NotifyUpdateFrequencyChanged += UpdateFrequencyChanged_Handler;
+            NotifyGameStateChanged += StateGameChanged_Handler;
+            Timer.Tick += DispatcherTimer_Tick;
+
+        }
+
+        private void TryChangeSnakeDirection(KeyEventArgs keyEvent)
+        {
+            switch (keyEvent.Key)
+            {
+                case Key.Left or Key.A:
+                    Field.MySnake.SnakeDirection = Snake.MovementDirections.Left;
+                    break;
+                case Key.Right or Key.D:
+                    Field.MySnake.SnakeDirection = Snake.MovementDirections.Right;
+                    break;
+                case Key.Up or Key.W:
+                    Field.MySnake.SnakeDirection = Snake.MovementDirections.Up;
+                    break;
+                case Key.Down or Key.S:
+                    Field.MySnake.SnakeDirection = Snake.MovementDirections.Down;
+                    break;
+            }
+        }
+        private void TryChangeGameState(KeyEventArgs keyEvent)
+        {
+            switch (keyEvent.Key)
+            {
+                case Key.Space when GameState==GameStates.InGame:
+                    GameState = GameStates.Paused;
+                    break;
+                case Key.Space when GameState == GameStates.Paused:
+                    GameState = GameStates.InGame;
+                    break;
+            }
+        }
+
+        private void PauseGame()
+        {
+            Timer.Stop();
+            SnakeField.Effect = new BlurEffect();
+        }
+        private void RunGame()
+        {
+            Timer.Start();
+            SnakeField.Effect = null;
+        }
+    }
+    enum GameStates
+    {
+        InGame, NotInGame, Paused
     }
 }
 
