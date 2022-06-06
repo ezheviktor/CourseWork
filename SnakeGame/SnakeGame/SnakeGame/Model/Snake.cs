@@ -11,10 +11,11 @@ namespace SnakeGame.Model
     {
         #region Events
         public event Action NotifySnakeIsDead;
-        public event Action NotifySnakeDirectionChanged;
         #endregion
 
         #region Fields
+        private bool canChangeDirection; //fixes bug of changing direction twice per update
+
         private MovementDirections snakeDirection;
         private bool isDead;
         private int snakeInitLength = 4;
@@ -36,6 +37,7 @@ namespace SnakeGame.Model
                 AddCellAt(SnakeCells.Count, Field[Field.FieldSize / 2, Field.FieldSize / 2 + i]);
             }
             //initializing snake direction
+            canChangeDirection = true;
             SnakeDirection = MovementDirections.Left;
             //initializing other fields
             IsDead = false;
@@ -50,8 +52,11 @@ namespace SnakeGame.Model
             get { return snakeDirection; }
             set
             {
-                if (Convert.ToBoolean(((int)value + (int)SnakeDirection) % 2))
+                if (Convert.ToBoolean(((int)value + (int)SnakeDirection) % 2) && canChangeDirection)
+                {
                     snakeDirection = value;
+                    canChangeDirection = false;
+                }
             }
         }
         public bool IsDead
@@ -153,6 +158,7 @@ namespace SnakeGame.Model
                         break;
                 }
             }
+            canChangeDirection = true;
         }
 
         #endregion
