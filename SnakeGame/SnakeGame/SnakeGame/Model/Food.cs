@@ -21,10 +21,11 @@ namespace SnakeGame.Model
             set
             {
                 isEaten = value;
-                NotifyFoodIsEaten?.Invoke(this);
+                if (IsEaten)
+                    NotifyFoodIsEaten?.Invoke(this);
             }
         }
-        public int ScoreValue { get; set; } = 100;
+        public int ScoreValue { get; set; }
 
         public SnakeField Field { get; init; }
         #endregion
@@ -33,11 +34,21 @@ namespace SnakeGame.Model
         public Food(SnakeField field)
         {
             Field = field;
+            ChooseScoreValue();
             GenerateFood();
         }
         #endregion
 
         #region Methods
+        public void ChooseScoreValue()
+        {
+            if (Field.Difficulty == GameDifficulties.Easy)
+                ScoreValue = 100;
+            else if (Field.Difficulty == GameDifficulties.Medium)
+                ScoreValue = 200;
+            else if (Field.Difficulty == GameDifficulties.Hard)
+                ScoreValue = 300;
+        }
         public void GenerateFood() //this method is not taking into account the case when all field is filled with snake and there is no empty place for new fruit
         {
             Random random = new Random();
