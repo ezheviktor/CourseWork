@@ -11,12 +11,14 @@ namespace SnakeGame.Model
     {
         #region Fields
         private static string ScoreFileName { get; set; }
+        private static string DifficultyFileName { get; set; }
         #endregion
 
         #region Constructors
         static SnakeGameFileManager()
         {
             ScoreFileName = "ScoreCounterLog";
+            DifficultyFileName = "DifficultyLog";
         }
         #endregion
 
@@ -42,6 +44,23 @@ namespace SnakeGame.Model
             return scores;
         }
 
+        public static void SaveDifficultyToFile(string difficulty)
+        {
+            using (StreamWriter writer = new StreamWriter(File.Open(DifficultyFileName, FileMode.Create)))
+            {
+                writer.Write(difficulty);
+            }
+        }
+
+        public static string GetDifficultyFromFile()
+        {
+            string difficulty;
+            using (StreamReader reader = new StreamReader(File.Open(DifficultyFileName, FileMode.Open)))
+            {
+                difficulty = reader.ReadLine();
+            }
+            return difficulty;
+        }
         #endregion
     }
 }

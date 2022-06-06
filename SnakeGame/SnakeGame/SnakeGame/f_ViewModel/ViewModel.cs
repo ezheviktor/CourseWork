@@ -10,14 +10,16 @@ namespace SnakeGame.f_ViewModel
 {
     internal class ViewModel
     {
+
         #region Fields
         private GameStates gameState;
-        private GameDifficulties gameDifficulty=GameDifficulties.Easy;
+        private GameDifficulties gameDifficulty;
         #endregion
 
         #region Constructors
         public ViewModel()
         {
+            gameDifficulty=StrToDifficultyConvert(SnakeGameFileManager.GetDifficultyFromFile());
             Field = new SnakeField(gameDifficulty);
             ScoreCounter = new ScoreCounter();
             Timer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(0.2), };
@@ -27,7 +29,7 @@ namespace SnakeGame.f_ViewModel
             Field.MySnake.NotifySnakeIsDead += () => { SnakeGameFileManager.SaveScoreToFile(ScoreCounter); };
             Field.MyFood.NotifyFoodIsEaten += (Food eatenFood) => { ScoreCounter.AddToScore(eatenFood.ScoreValue); };
             NotifyGameStateChanged += StateGameChanged_Handler;
-            NotifyDifficultyGameChanged += DifficultyGameChanged_Handler;
+            //NotifyDifficultyGameChanged += DifficultyGameChanged_Handler;
             Timer.Tick += DispatcherTimer_Tick;
         }
 
@@ -52,14 +54,14 @@ namespace SnakeGame.f_ViewModel
             set
             {
                 gameDifficulty = value;
-                NotifyDifficultyGameChanged?.Invoke(value);
+                //NotifyDifficultyGameChanged?.Invoke(value);
             }
         }
         #endregion
 
         #region Events
         internal event Action<GameStates> NotifyGameStateChanged;
-        internal event Action<GameDifficulties> NotifyDifficultyGameChanged;
+        //internal event Action<GameDifficulties> NotifyDifficultyGameChanged;
         #endregion
 
         #region Handlers
@@ -68,22 +70,22 @@ namespace SnakeGame.f_ViewModel
             switch (state)
             {
                 case GameStates.Paused:
-                    PauseGame();
+                    Timer.Stop();
                     break;
                 case GameStates.InGame:
-                    RunGame();
+                    Timer.Start();
                     break;
                 case GameStates.NotInGame:
-                    EndGame();
+                    Timer.Stop();
                     break;
 
             }
         }
 
-        private void DifficultyGameChanged_Handler(GameDifficulties difficulty)
-        {
-            Field.Difficulty = difficulty;
-        }
+        //private void DifficultyGameChanged_Handler(GameDifficulties difficulty)
+        //{
+        //    Field.Difficulty = difficulty;
+        //}
         private void DispatcherTimer_Tick(object? sender, EventArgs e)
         {
             if (GameState == GameStates.InGame)
@@ -94,28 +96,39 @@ namespace SnakeGame.f_ViewModel
         #endregion
 
         #region Methods
-        public void PauseGame()
-        {
-            Timer.Stop();
-        }
-        public void RunGame()
-        {
-            Timer.Start();
-        }
-        public void EndGame()
-        {
-            Timer.Stop();
-            //something else here
-        }
-        public void ResetGame()
-        {
+        //public void PauseGame()
+        //{
+        //    Timer.Stop();
+        //}
+        //public void RunGame()
+        //{
+        //    Timer.Start();
+        //}
+        //public void EndGame()
+        //{
+        //    Timer.Stop();
+        //    //something else here
+        //}
 
-        }
         public void ChangeSnakeDirection(Snake.MovementDirections newDirect)
         {
             Field.MySnake.SnakeDirection = newDirect;
         }
 
+        public GameDifficulties StrToDifficultyConvert(string difficulty)
+        {
+            switch (difficulty)
+            {
+                case "hard":
+                    return GameDifficulties.Hard;
+                case "medium":
+                    return GameDifficulties.Medium;
+                case "easy":
+                    return GameDifficulties.Easy;
+                default:
+                    return GameDifficulties.Easy;
+            }
+        }
         #endregion
     }
     enum GameStates
