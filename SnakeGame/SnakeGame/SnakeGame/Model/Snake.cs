@@ -11,44 +11,14 @@ namespace SnakeGame.Model
     {
         #region Events
         public event Action NotifySnakeIsDead;
+        public event Action NotifySnakeDirectionChanged;
         #endregion
 
-        #region Fields and Properties
-        public enum MovementDirections
-        {
-            Left = 0,
-            Up = 1,
-            Right = 2,
-            Down = 3,
-        }
+        #region Fields
         private MovementDirections snakeDirection;
-        public MovementDirections SnakeDirection //needs refactoring to make logic more transparent
-        {
-            get { return snakeDirection; }
-            set
-            {
-                if (Convert.ToBoolean(((int)value + (int)SnakeDirection) % 2))
-                    snakeDirection = value;
-            }
-        }
-
         private bool isDead;
-        public bool IsDead
-        {
-            get => isDead;
-            set
-            {
-                isDead = value;
-                if (value == true)
-                    NotifySnakeIsDead?.Invoke();
-            }
-        }
-        public int _snakeInitLength = 4;
-
-        public int SnakeHeadIndex { get; } = 0;
-        public List<Cell> SnakeCells { get; set; }
-
-        public SnakeField Field { get; init; }
+        private int snakeInitLength = 4;
+        private const int snakeHeadIndex = 0;
         #endregion
 
         #region Constructors
@@ -56,12 +26,12 @@ namespace SnakeGame.Model
         {
             //reference to the field we create snake in
             Field = field;
-            if (field.FieldSize < _snakeInitLength)
+            if (field.FieldSize < snakeInitLength)
                 throw new ArgumentException("Field is too samll. Snake can`t fit in it");
 
             //initializing snake in the middle of the map
             SnakeCells = new List<Cell>();
-            for (int i = 0; i < _snakeInitLength; i++)
+            for (int i = 0; i < snakeInitLength; i++)
             {
                 AddCellAt(SnakeCells.Count, Field[Field.FieldSize / 2, Field.FieldSize / 2 + i]);
             }
@@ -72,8 +42,31 @@ namespace SnakeGame.Model
         }
         #endregion
 
-        #region Methods
+        #region Properties
+        public List<Cell> SnakeCells { get; set; }
+        public SnakeField Field { get; init; }
+        public MovementDirections SnakeDirection //needs refactoring to make logic more transparent
+        {
+            get { return snakeDirection; }
+            set
+            {
+                if (Convert.ToBoolean(((int)value + (int)SnakeDirection) % 2))
+                    snakeDirection = value;
+            }
+        }
+        public bool IsDead
+        {
+            get => isDead;
+            set
+            {
+                isDead = value;
+                if (value == true)
+                    NotifySnakeIsDead?.Invoke();
+            }
+        }
+        #endregion
 
+        #region Methods
         public void RemoveCellAt(int index)
         {
             SnakeCells[index].CellType = Cell.CellTypes.EmptyCell;
@@ -83,12 +76,12 @@ namespace SnakeGame.Model
         public void AddCellAt(int index, Cell cell)
         {
             int SnakeTailIndex = SnakeCells.Count;
-            if (index != SnakeHeadIndex && index != SnakeTailIndex)
+            if (index != snakeHeadIndex && index != SnakeTailIndex)
                 throw new Exception("Can`t add cell to the middle of the snake");
 
-            if (index == SnakeHeadIndex)
-                SnakeCells.Insert(SnakeHeadIndex, cell);
-            if (index == SnakeTailIndex)
+            if (index == snakeHeadIndex)
+                SnakeCells.Insert(snakeHeadIndex, cell);
+            else if (index == SnakeTailIndex)
                 SnakeCells.Insert(SnakeTailIndex, cell);
             cell.CellType = Cell.CellTypes.SnakeCell;
         }
@@ -113,8 +106,8 @@ namespace SnakeGame.Model
             }
             //refactoring needed here
             //the trick is that we divide final coordinates by twenty to take into acoount he fact that we can cross the border and coordianted will drop
-            int RowCoord = SnakeCells[SnakeHeadIndex].RowCoord + deltaRow;
-            int ColCoord = SnakeCells[SnakeHeadIndex].ColCoord + deltaCol;
+            int RowCoord = SnakeCells[snakeHeadIndex].RowCoord + deltaRow;
+            int ColCoord = SnakeCells[snakeHeadIndex].ColCoord + deltaCol;
 
             //this conditional doesn`t need to be here(needed refactoring)
             if (Field.Difficulty == GameDifficulties.Hard &&
@@ -132,7 +125,7 @@ namespace SnakeGame.Model
         public void MoveOneStep()
         {
             RemoveCellAt(SnakeCells.Count - 1);
-            AddCellAt(SnakeHeadIndex, GetNextCell());
+            AddCellAt(snakeHeadIndex, GetNextCell());
         }
 
         public void Eat()
@@ -163,5 +156,12 @@ namespace SnakeGame.Model
         }
 
         #endregion
+    }
+    public enum MovementDirections
+    {
+        Left = 0,
+        Up = 1,
+        Right = 2,
+        Down = 3,
     }
 }

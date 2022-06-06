@@ -91,17 +91,17 @@ namespace SnakeGame.Model
         {
             TestFieldDebuggerDisplay();
 
-            MySnake.SnakeDirection = Snake.MovementDirections.Up;
+            MySnake.SnakeDirection = MovementDirections.Up;
             SnakeFieldUpdate();
             Debug.WriteLine(MySnake.IsDead);
             TestFieldDebuggerDisplay();
 
-            MySnake.SnakeDirection = Snake.MovementDirections.Right;
+            MySnake.SnakeDirection = MovementDirections.Right;
             SnakeFieldUpdate();
             Debug.WriteLine(MySnake.IsDead);
             TestFieldDebuggerDisplay();
 
-            MySnake.SnakeDirection = Snake.MovementDirections.Down;
+            MySnake.SnakeDirection = MovementDirections.Down;
             SnakeFieldUpdate();
             Debug.WriteLine(MySnake.IsDead);
             TestFieldDebuggerDisplay();

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 
@@ -110,7 +111,7 @@ namespace SnakeGame.f_ViewModel
         //    //something else here
         //}
 
-        public void ChangeSnakeDirection(Snake.MovementDirections newDirect)
+        public void ChangeSnakeDirection(MovementDirections newDirect)
         {
             Field.MySnake.SnakeDirection = newDirect;
         }
