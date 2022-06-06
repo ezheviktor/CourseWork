@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SnakeGame.f_ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,36 @@ namespace SnakeGame
     /// </summary>
     public partial class DifficultyWindow : Window
     {
+        private ViewModel viewModel;
+
         public DifficultyWindow()
         {
             InitializeComponent();
+        }
+
+        private void SetDifficulty_Click(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = true;
+            foreach(var option in DifficultyOptions.Children)
+            {
+                if(option is RadioButton choice && choice.IsChecked==true)
+                {
+                    switch (choice.Content.ToString().Trim().ToLower())
+                    {
+                        //case "hard":
+                        //    viewModel.GameDifficulty = GameDifficulties.Hard;
+                        //    break;
+                        //case "medium":
+                        //    viewModel.ChangeDifficulty(Model.Difficulty.Medium);
+                        //    break;
+                        //case "easy":
+                        //    viewModel.ChangeDifficulty(Model.Difficulty.Easy);
+                        //    break;
+                    }
+                        
+                }
+            }
+
         }
     }
 }

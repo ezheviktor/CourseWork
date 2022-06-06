@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SnakeGame.Model;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -18,18 +19,9 @@ namespace SnakeGame
         {
             MainWindow window = new MainWindow();
             window.Show();
+            //SnakeField field = new SnakeField(GameDifficulties.Easy);
+            //field.TestCheckBorderCrossing();
         }
-
-        //private void TryDisplaySnakeGameWindow(Type type)
-        //{
-        //    if (type == typeof(SnakeGameWindow))
-        //    {
-        //        snakeGameWindow.Show();
-        //        mainWindow.Close();
-        //        statsWindow.Close();
-        //        difficultyWindow.Close();
-        //    }
-        //}
     }
 
 }

@@ -56,16 +56,16 @@ namespace SnakeGame
             switch (keyEvent.Key)
             {
                 case Key.Left or Key.A:
-                    viewModel.TryChangeSnakeDirection(Snake.MovementDirections.Left);
+                    viewModel.ChangeSnakeDirection(Snake.MovementDirections.Left);
                     break;
                 case Key.Right or Key.D:
-                    viewModel.TryChangeSnakeDirection(Snake.MovementDirections.Right);
+                    viewModel.ChangeSnakeDirection(Snake.MovementDirections.Right);
                     break;
                 case Key.Up or Key.W:
-                    viewModel.TryChangeSnakeDirection(Snake.MovementDirections.Up);
+                    viewModel.ChangeSnakeDirection(Snake.MovementDirections.Up);
                     break;
                 case Key.Down or Key.S:
-                    viewModel.TryChangeSnakeDirection(Snake.MovementDirections.Down);
+                    viewModel.ChangeSnakeDirection(Snake.MovementDirections.Down);
                     break;
 
                 case Key.Space when viewModel.GameState == GameStates.InGame:

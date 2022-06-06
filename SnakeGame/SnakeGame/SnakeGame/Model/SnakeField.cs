@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SnakeGame.f_ViewModel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -11,6 +12,7 @@ namespace SnakeGame.Model
     internal class SnakeField 
     {
         #region FieldsAndProperties
+        public GameDifficulties Difficulty { get; set; }
         public int FieldSize { get; } = 20;
 
         private Cell[,] field;
@@ -24,11 +26,14 @@ namespace SnakeGame.Model
         }
         public Snake MySnake { get; set; }
         public Food MyFood { get; set; }
+   
         #endregion
 
         #region Constructors
-        public SnakeField()
+        public SnakeField(GameDifficulties difficulty)
         {
+            //setting difficulty
+            Difficulty = difficulty;
             //emptying field
             Field = new Cell[FieldSize, FieldSize];
             for (int i = 0; i < FieldSize; i++)
@@ -103,4 +108,11 @@ namespace SnakeGame.Model
         }
         #endregion
     }
+    enum GameDifficulties
+    {
+        Easy,
+        Medium,
+        Hard,
+    }
+
 }

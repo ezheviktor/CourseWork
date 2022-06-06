@@ -5,8 +5,29 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SnakeGame"
         mc:Ignorable="d"
-        Title="DifficultyWindow" Height="450" Width="800">
-    <Grid>
+        Title="Difficulty" Height="170" Width="250"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
         
-    </Grid>
+    </Window.Resources>
+    <Border Margin="10">
+        <Grid >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <StackPanel Name="DifficultyOptions" Margin="10" Orientation="Vertical" Grid.Row="0">
+                <RadioButton  Content="Hard"></RadioButton>
+                <RadioButton Content="Medium"></RadioButton>
+                <RadioButton Content="Easy"></RadioButton>
+            </StackPanel>
+            <WrapPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" >
+                <Button IsCancel="True" MinWidth="75" Margin="0,10,10,0">Cancel</Button>
+                <Button IsDefault="True" Click="SetDifficulty_Click" MinWidth="75" Margin="0,10,10,0">Set</Button>
+            </WrapPanel>
+        </Grid>
+    </Border>
+
+    
 </Window>

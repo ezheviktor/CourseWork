@@ -12,22 +12,25 @@ namespace SnakeGame.f_ViewModel
     {
         #region Fields
         private GameStates gameState;
+        private GameDifficulties gameDifficulty=GameDifficulties.Easy;
         #endregion
 
         #region Constructors
         public ViewModel()
         {
-            Field = new SnakeField();
+            Field = new SnakeField(gameDifficulty);
             ScoreCounter = new ScoreCounter();
             Timer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(0.2), };
-            
+
 
             Field.MySnake.NotifySnakeIsDead += () => { GameState = GameStates.NotInGame; };
             Field.MySnake.NotifySnakeIsDead += () => { SnakeGameFileManager.SaveScoreToFile(ScoreCounter); };
             Field.MyFood.NotifyFoodIsEaten += (Food eatenFood) => { ScoreCounter.AddToScore(eatenFood.ScoreValue); };
             NotifyGameStateChanged += StateGameChanged_Handler;
+            NotifyDifficultyGameChanged += DifficultyGameChanged_Handler;
             Timer.Tick += DispatcherTimer_Tick;
         }
+
         #endregion
 
         #region Properties
@@ -37,16 +40,26 @@ namespace SnakeGame.f_ViewModel
         internal GameStates GameState
         {
             get => gameState;
-            set 
+            set
             {
                 gameState = value;
                 NotifyGameStateChanged?.Invoke(value);
+            }
+        }
+        internal GameDifficulties GameDifficulty
+        {
+            get => gameDifficulty;
+            set
+            {
+                gameDifficulty = value;
+                NotifyDifficultyGameChanged?.Invoke(value);
             }
         }
         #endregion
 
         #region Events
         internal event Action<GameStates> NotifyGameStateChanged;
+        internal event Action<GameDifficulties> NotifyDifficultyGameChanged;
         #endregion
 
         #region Handlers
@@ -66,6 +79,11 @@ namespace SnakeGame.f_ViewModel
 
             }
         }
+
+        private void DifficultyGameChanged_Handler(GameDifficulties difficulty)
+        {
+            Field.Difficulty = difficulty;
+        }
         private void DispatcherTimer_Tick(object? sender, EventArgs e)
         {
             if (GameState == GameStates.InGame)
@@ -76,7 +94,7 @@ namespace SnakeGame.f_ViewModel
         #endregion
 
         #region Methods
-        private void PauseGame()
+        public void PauseGame()
         {
             Timer.Stop();
         }
@@ -84,20 +102,25 @@ namespace SnakeGame.f_ViewModel
         {
             Timer.Start();
         }
-        private void EndGame()
+        public void EndGame()
         {
             Timer.Stop();
             //something else here
         }
+        public void ResetGame()
+        {
 
-        public void TryChangeSnakeDirection(Snake.MovementDirections newDirect)
+        }
+        public void ChangeSnakeDirection(Snake.MovementDirections newDirect)
         {
             Field.MySnake.SnakeDirection = newDirect;
         }
+
         #endregion
     }
     enum GameStates
     {
         InGame, NotInGame, Paused
     }
+
 }

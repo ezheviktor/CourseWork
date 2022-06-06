@@ -116,8 +116,16 @@ namespace SnakeGame.Model
             int RowCoord = SnakeCells[SnakeHeadIndex].RowCoord + deltaRow;
             int ColCoord = SnakeCells[SnakeHeadIndex].ColCoord + deltaCol;
 
+            //this conditional doesn`t need to be here(needed refactoring)
+            if (Field.Difficulty == GameDifficulties.Hard &&
+                (RowCoord > Field.FieldSize || RowCoord < 0 || ColCoord > Field.FieldSize || ColCoord < 0))
+            {
+                IsDead = true;
+            }
+
             RowCoord = RowCoord >= 0 ? (RowCoord % 20) : (RowCoord + Field.FieldSize);
             ColCoord = ColCoord >= 0 ? (ColCoord % 20) : (ColCoord + Field.FieldSize);
+
             return Field[RowCoord, ColCoord];
         }
 
@@ -136,9 +144,9 @@ namespace SnakeGame.Model
         }
         public void SnakeUpdate()
         {
+            Cell NextCell = GetNextCell();
             if (!IsDead)
             {
-                Cell NextCell = GetNextCell();
                 switch (NextCell.CellType)
                 {
                     case Cell.CellTypes.EmptyCell:
