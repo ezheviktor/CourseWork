@@ -64,11 +64,23 @@ namespace SnakeGame
             Timer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(0.2), };
             GameState = GameStates.InGame;
             BindFieldToGrid();
+            BindScoreToWindow();
             SubscribeToEvents();
 
             //UpdateFrequencySec = 0.25;
             Timer.Start();
 
+        }
+
+        private void BindScoreToWindow()
+        {
+            Binding binding = new Binding
+            {
+                Source = ScoreCounter,
+                Path = new PropertyPath($"Score"),
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+            };
+            ScoreDisplayer.SetBinding(TextBlock.TextProperty, binding);
         }
 
         private void BindFieldToGrid()
@@ -120,9 +132,13 @@ namespace SnakeGame
                 case GameStates.InGame:
                     RunGame();
                     break;
+                case GameStates.NotInGame:
+                    EndGame();
+                    break;
                     
             }
         }
+
 
         private void DispatcherTimer_Tick(object? sender, EventArgs e)
         {
@@ -184,6 +200,12 @@ namespace SnakeGame
         {
             Timer.Start();
             SnakeField.Effect = null;
+        }
+        private void EndGame()
+        {
+            Timer.Stop();
+
+            GameWindow.Close();
         }
     }
     enum GameStates

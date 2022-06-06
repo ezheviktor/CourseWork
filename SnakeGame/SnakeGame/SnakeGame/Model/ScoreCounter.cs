@@ -1,15 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SnakeGame.Model
 {
-    internal class ScoreCounter
+    internal class ScoreCounter : INotifyPropertyChanged
     {
+        private int score;
         #region Fields
-        public int Score { get; private set; }
+        public int Score
+        {
+            get => score; private set
+            {
+                score = value;
+                OnPropertyChanged(nameof(Score));
+            }
+        }
 
         #endregion
 
@@ -18,6 +27,8 @@ namespace SnakeGame.Model
         {
             Score = 0;
         }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
         #endregion
 
         #region Methods
@@ -25,7 +36,10 @@ namespace SnakeGame.Model
         {
             Score += ScoreIncreaseVal;
         }
-        
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
         #endregion
     }
 }
