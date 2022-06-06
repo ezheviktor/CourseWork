@@ -31,7 +31,8 @@
                     Style="{StaticResource MenuButton}"
                     Click="StartGameClick"/>
             <Button Content="Difficulty"
-                    Style="{StaticResource MenuButton}"/>
+                    Style="{StaticResource MenuButton}"
+                    Click="DifficultyWindowClick"/>
             <Button Content="Statistics"
                     Style="{StaticResource MenuButton}"
                     Click="StatsWindowClick"

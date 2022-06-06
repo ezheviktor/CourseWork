@@ -9,6 +9,7 @@
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterScreen"
         KeyDown="Grid_KeyDown"
+        ContentRendered="GameWindow_ContentRendered"
         x:Name="GameWindow">
     <Grid >
         <Grid.ColumnDefinitions>

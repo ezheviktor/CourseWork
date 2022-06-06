@@ -13,12 +13,23 @@ namespace SnakeGame
     /// </summary>
     public partial class App : Application
     {
+        
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            SnakeGame.MainWindow window = new SnakeGame.MainWindow();
+            MainWindow window = new MainWindow();
             window.Show();
-            //SnakeGame.Model.SnakeField fieldTemp = new Model.SnakeField();
-            //fieldTemp.TestCheckBorderCrossing();
         }
+
+        //private void TryDisplaySnakeGameWindow(Type type)
+        //{
+        //    if (type == typeof(SnakeGameWindow))
+        //    {
+        //        snakeGameWindow.Show();
+        //        mainWindow.Close();
+        //        statsWindow.Close();
+        //        difficultyWindow.Close();
+        //    }
+        //}
     }
+
 }

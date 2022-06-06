@@ -22,21 +22,40 @@ namespace SnakeGame
     /// </summary>
     public partial class MainWindow : Window
     {
+
         public MainWindow()
         {
             InitializeComponent();
-            
+
         }
+
+
         private void StartGameClick(object sender, RoutedEventArgs e)
         {
-            SnakeGameWindow snake = new SnakeGameWindow();
-            snake.Show();
+            SnakeGameWindow game = new SnakeGameWindow();
+            game.Owner = this;
+            game.ShowDialog();
         }
 
         private void StatsWindowClick(object sender, RoutedEventArgs e)
         {
             StatsWindow stats = new StatsWindow();
-            stats.Show();
+            stats.Owner = this;
+            stats.ShowDialog();
         }
+
+        private void DifficultyWindowClick(object sender, RoutedEventArgs e)
+        {
+            DifficultyWindow difficulty = new DifficultyWindow();
+            difficulty.Owner = this;
+            difficulty.ShowDialog();
+        }
+    }
+    enum AppWindows
+    {
+        MainWindow,
+        SnakeGameWindow,
+        DifficultyWindow,
+        StatsWindow
     }
 }
