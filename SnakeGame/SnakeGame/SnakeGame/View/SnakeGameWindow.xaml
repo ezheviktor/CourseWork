@@ -93,7 +93,10 @@
                 <TextBlock Text="Score: " />
                 <TextBlock Name="ScoreDisplayer" ></TextBlock>
             </StackPanel>
-            <TextBlock Text="Difficulty: "/>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Difficulty: "/>
+                <TextBlock x:Name="DifficultyDisplayer"></TextBlock>
+            </StackPanel>
         </StackPanel>
 
 

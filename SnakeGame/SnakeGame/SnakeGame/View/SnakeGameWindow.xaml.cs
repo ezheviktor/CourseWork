@@ -36,7 +36,10 @@ namespace SnakeGame
 
             BindFieldToGrid();
             BindScoreToWindow();
+            DifficultyDisplayer.Text = viewModel.GameDifficulty.ToString();
         }
+
+
         #endregion
 
         #region Properties
@@ -91,7 +94,6 @@ namespace SnakeGame
             };
             ScoreDisplayer.SetBinding(TextBlock.TextProperty, binding);
         }
-
         private void BindFieldToGrid()
         {
             for (int i = 0; i < viewModel.Field.FieldSize; i++)

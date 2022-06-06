@@ -20,10 +20,11 @@ namespace SnakeGame.f_ViewModel
         #region Constructors
         public ViewModel()
         {
-            gameDifficulty=StrToDifficultyConvert(SnakeGameFileManager.GetDifficultyFromFile());
+            gameDifficulty = StrToDifficultyConvert(SnakeGameFileManager.GetDifficultyFromFile());
             Field = new SnakeField(gameDifficulty);
             ScoreCounter = new ScoreCounter();
-            Timer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(0.2), };
+            Timer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(0.25 - 0.0750 * (int)gameDifficulty) };
+            
 
 
             Field.MySnake.NotifySnakeIsDead += () => { GameState = GameStates.NotInGame; };
