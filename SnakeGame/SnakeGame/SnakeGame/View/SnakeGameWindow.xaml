@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="SnakeGameWindow"
         SizeToContent="WidthAndHeight"
-        WindowStartupLocation="CenterScreen"
+        WindowStartupLocation="CenterOwner"
         KeyDown="Grid_KeyDown"
         ContentRendered="GameWindow_ContentRendered"
         x:Name="GameWindow">

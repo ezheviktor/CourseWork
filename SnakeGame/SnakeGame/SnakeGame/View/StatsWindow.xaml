@@ -5,9 +5,93 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SnakeGame"
         mc:Ignorable="d"
-        Title="StatsWindow" Height="300" Width="300">
-    <Grid>
-        <ListBox>
-        </ListBox>
-    </Grid>
+        Title="Statistics" Height="Auto" MinHeight="100" MaxHeight="200"  Width="300"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner">
+
+
+    <Border Margin="10" Grid.RowSpan="2" BorderThickness="1" BorderBrush="DarkOliveGreen" >
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.Resources>
+                <!--<Style TargetType="ColumnDefinition">
+                    <Setter Property="MinWidth" Value="60"></Setter>
+                </Style>-->
+            </Grid.Resources>
+
+
+            <!--<Border Padding="0 0 17 0"  >-->
+            <!--
+            <Border BorderBrush="DarkOliveGreen" BorderThickness="1">
+                <Grid Name="StatsHeaderRow" ShowGridLines="true" Grid.Row="0"  >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition ></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Column="0" Grid.Row="0" Text="Difficulty" HorizontalAlignment="Center"></TextBlock>
+                        <TextBlock Grid.Column="1" Grid.Row="0" Text="Date" HorizontalAlignment="Center"></TextBlock>
+                        <TextBlock Grid.Column="2" Grid.Row="0" Text="Score" HorizontalAlignment="Center"></TextBlock>
+                    </Grid>
+                </Border>
+            -->
+            <!--</Border>-->
+            <!--
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible" CanContentScroll="True">
+                <Grid Name="StatsDisplay" Height="Auto" ShowGridLines="True" Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                </Grid>
+            </ScrollViewer>-->
+
+
+
+
+
+            <Border Grid.Row="0" Background="#FFCCCC" Padding="0 0 17 0">
+                <Grid Name="StatsHeaderRow" ShowGridLines="true" Grid.Row="0"  >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition ></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Column="0" Grid.Row="0" Text="Difficulty" HorizontalAlignment="Center"></TextBlock>
+                    <TextBlock Grid.Column="1" Grid.Row="0" Text="Date" HorizontalAlignment="Center"></TextBlock>
+                    <TextBlock Grid.Column="2" Grid.Row="0" Text="Score" HorizontalAlignment="Center"></TextBlock>
+                </Grid>
+            </Border>
+
+            <ScrollViewer Grid.Row="1" Grid.ColumnSpan="2" 
+                    VerticalScrollBarVisibility="Auto">
+
+                <Grid ClipToBounds="True" Name="StatsDisplay"  ShowGridLines="True">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                </Grid>
+
+
+            </ScrollViewer>
+
+        </Grid>
+    </Border>
+
 </Window>

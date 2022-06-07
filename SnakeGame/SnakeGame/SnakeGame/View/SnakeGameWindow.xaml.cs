@@ -25,7 +25,7 @@ namespace SnakeGame
     public partial class SnakeGameWindow : Window
     {
         #region Fields 
-        private readonly ViewModel viewModel;
+        private ViewModel viewModel;
         #endregion
 
         #region Constructors
@@ -79,6 +79,10 @@ namespace SnakeGame
                     viewModel.GameState = GameStates.InGame;
                     SnakeField.Effect = null;
                     break;
+                //case Key.Space when viewModel.GameState == GameStates.NotInGame:
+                //    viewModel.Field.ResetField();
+                //    viewModel.GameState = GameStates.InGame;
+                //    break;
             }
         }
         #endregion

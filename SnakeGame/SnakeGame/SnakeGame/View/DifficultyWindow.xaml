@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SnakeGame"
         mc:Ignorable="d"
         Title="Difficulty" Height="170" Width="250"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterOwner">
     <Window.Resources>
         
     </Window.Resources>

@@ -24,14 +24,12 @@ namespace SnakeGame.f_ViewModel
             Field = new SnakeField(gameDifficulty);
             ScoreCounter = new ScoreCounter();
             Timer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(0.25 - 0.0750 * (int)gameDifficulty) };
-            
 
 
             Field.MySnake.NotifySnakeIsDead += () => { GameState = GameStates.NotInGame; };
-            Field.MySnake.NotifySnakeIsDead += () => { SnakeGameFileManager.SaveScoreToFile(ScoreCounter); };
+            Field.MySnake.NotifySnakeIsDead += () => { SnakeGameFileManager.SaveStatistics(ScoreCounter, gameDifficulty); };
             Field.MyFood.NotifyFoodIsEaten += (Food eatenFood) => { ScoreCounter.AddToScore(eatenFood.ScoreValue); };
             NotifyGameStateChanged += StateGameChanged_Handler;
-            //NotifyDifficultyGameChanged += DifficultyGameChanged_Handler;
             Timer.Tick += DispatcherTimer_Tick;
         }
 
@@ -56,14 +54,12 @@ namespace SnakeGame.f_ViewModel
             set
             {
                 gameDifficulty = value;
-                //NotifyDifficultyGameChanged?.Invoke(value);
             }
         }
         #endregion
 
         #region Events
         internal event Action<GameStates> NotifyGameStateChanged;
-        //internal event Action<GameDifficulties> NotifyDifficultyGameChanged;
         #endregion
 
         #region Handlers
@@ -84,10 +80,6 @@ namespace SnakeGame.f_ViewModel
             }
         }
 
-        //private void DifficultyGameChanged_Handler(GameDifficulties difficulty)
-        //{
-        //    Field.Difficulty = difficulty;
-        //}
         private void DispatcherTimer_Tick(object? sender, EventArgs e)
         {
             if (GameState == GameStates.InGame)
@@ -98,19 +90,6 @@ namespace SnakeGame.f_ViewModel
         #endregion
 
         #region Methods
-        //public void PauseGame()
-        //{
-        //    Timer.Stop();
-        //}
-        //public void RunGame()
-        //{
-        //    Timer.Start();
-        //}
-        //public void EndGame()
-        //{
-        //    Timer.Stop();
-        //    //something else here
-        //}
 
         public void ChangeSnakeDirection(MovementDirections newDirect)
         {

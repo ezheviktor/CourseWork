@@ -23,25 +23,26 @@ namespace SnakeGame.Model
         #endregion
 
         #region Methods
-        public static void SaveScoreToFile(ScoreCounter newScore)
+        public static void SaveStatistics(ScoreCounter newScore, GameDifficulties difficulties)
         {
-            using StreamWriter writer = new StreamWriter(File.Open(ScoreFileName, FileMode.OpenOrCreate));
+            using StreamWriter writer = new StreamWriter(File.Open(ScoreFileName, FileMode.Append));
             {
-                writer.WriteLine(newScore.Score);
+                writer.WriteLine( difficulties.ToString()+" "+DateTime.Now.ToString("g") + " " + newScore.Score.ToString());
             }
         }
 
-        public static List<int> GetScoresFromFile()
+        public static List<string> GetStatistics()
         {
-            List<int> scores = new List<int>();
+            List<string> statistics = new List<string>();
             using (StreamReader reader = new StreamReader(File.Open(ScoreFileName, FileMode.Open)))
             {
                 while (!reader.EndOfStream)
                 {
-                    scores.Add(int.Parse(reader.ReadLine()));
+                    statistics.Add(reader.ReadLine());
                 }
             }
-            return scores;
+            statistics.Reverse();
+            return statistics;
         }
 
         public static void SaveDifficultyToFile(string difficulty)
@@ -50,6 +51,7 @@ namespace SnakeGame.Model
             {
                 writer.Write(difficulty);
             }
+            
         }
 
         public static string GetDifficultyFromFile()

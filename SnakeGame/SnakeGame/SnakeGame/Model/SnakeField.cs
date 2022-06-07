@@ -62,6 +62,21 @@ namespace SnakeGame.Model
             MySnake.SnakeUpdate();
             MyFood.UpdateFood();
         }
+
+        //public void ResetField()
+        //{
+        //    for (int i = 0; i < FieldSize; i++)
+        //    {
+        //        for (int j = 0; j < FieldSize; j++)
+        //        {
+        //            Field[i, j].CellType=Cell.CellTypes.EmptyCell;
+        //        }
+        //    }
+        //    //initializing snake
+        //    MySnake = new Snake(this);
+        //    //initializing food
+        //    MyFood = new Food(this);
+        //}
         #endregion
 
         #region Test

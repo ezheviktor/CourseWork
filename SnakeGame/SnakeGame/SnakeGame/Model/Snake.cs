@@ -116,7 +116,7 @@ namespace SnakeGame.Model
 
             //this conditional doesn`t need to be here(needed refactoring)
             if (Field.Difficulty == GameDifficulties.Hard &&
-                (RowCoord > Field.FieldSize || RowCoord < 0 || ColCoord > Field.FieldSize || ColCoord < 0))
+                (RowCoord > Field.FieldSize-1 || RowCoord < 0 || ColCoord > Field.FieldSize-1 || ColCoord < 0))
             {
                 IsDead = true;
             }
