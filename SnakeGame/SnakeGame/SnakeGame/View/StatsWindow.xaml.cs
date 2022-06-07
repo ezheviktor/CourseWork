@@ -22,18 +22,26 @@ namespace SnakeGame
     public partial class StatsWindow : Window
     {
         private List<StatsItem> items;
+        //public StatsWindow()
+        //{
+        //    InitializeComponent();
+        //    List<string> statStringsFromFile = new List<string>(SnakeGameFileManager.GetStatistics());
+        //    statStringsFromFile.RemoveAll((p) => { return p == ""; });
+        //    items = new List<StatsItem>();
+        //    foreach (var item in statStringsFromFile)
+        //    {
+        //        items.Add(new StatsItem(item));
+        //    }
+        //    ListToStatDisplayBinding();
+        //}
+
         public StatsWindow()
         {
             InitializeComponent();
-            List<string> statStringsFromFile = new List<string>(SnakeGameFileManager.GetStatistics());
-            statStringsFromFile.RemoveAll((p) => { return p == ""; });
-            items = new List<StatsItem>();
-            foreach (var item in statStringsFromFile)
-            {
-                items.Add(new StatsItem(item));
-            }
+            items = SnakeGameFileManager.GetStatistics();
             ListToStatDisplayBinding();
         }
+
         public void ListToStatDisplayBinding()
         {
             for (int i = 0; i < items.Count; i++)
@@ -41,54 +49,30 @@ namespace SnakeGame
                 StatsDisplay.RowDefinitions.Add(new RowDefinition());
                 for (int j = 0; j < StatsDisplay.ColumnDefinitions.Count; j++)
                 {
-                    TextBlock innerTextCell = new TextBlock();
-                    innerTextCell.HorizontalAlignment=HorizontalAlignment.Center;
-                    innerTextCell.SetValue(Grid.RowProperty, i);
-                    innerTextCell.SetValue(Grid.ColumnProperty, j);
-                    Binding textCellBind = new Binding()
+                    TextBlock innerCellText = new TextBlock();
+                    innerCellText.HorizontalAlignment=HorizontalAlignment.Center;
+                    innerCellText.SetValue(Grid.RowProperty, i);
+                    innerCellText.SetValue(Grid.ColumnProperty, j);
+                    Binding cellBind = new Binding()
                     {
                         Source = items[i],
                         UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
                     };
                     if (j == 0)
-                        textCellBind.Path = new PropertyPath("GameDifficulty");
+                        cellBind.Path = new PropertyPath("GameDifficulty");
                     if(j == 1)
-                        textCellBind.Path = new PropertyPath("GameDate");
+                    {
+                        cellBind.Path = new PropertyPath("GameDate");
+                        cellBind.Converter = new DateTimeConverter();
+                    }
                     if(j==2)
-                        textCellBind.Path = new PropertyPath("Score");
-                    innerTextCell.SetBinding(TextBlock.TextProperty, textCellBind);
-                    StatsDisplay.Children.Add(innerTextCell);
+                        cellBind.Path = new PropertyPath("GameScore");
+                    innerCellText.SetBinding(TextBlock.TextProperty, cellBind);
+                    StatsDisplay.Children.Add(innerCellText);
                 }
 
             }
-            //    for (int i = 0; i < items.Count; ++i)
-            //    {
-            //        TextBlock dateText = new TextBlock();
-            //        Binding dateBinding = new Binding()
-            //        {
-            //            Source = items[i],
-            //            Path = new PropertyPath($"GameDate"),
-            //            UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
-            //        };
-            //        dateText.SetBinding(TextBlock.TextProperty, dateBinding);
-            //        dateText.SetValue(DockPanel.DockProperty, Dock.Left);
 
-            //        TextBlock scoreText = new TextBlock();
-            //        Binding scoreBinding = new Binding()
-            //        {
-            //            Source = items[i],
-            //            Path = new PropertyPath($"Score"),
-            //            UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
-            //        };
-            //        scoreText.SetBinding(TextBlock.TextProperty, scoreBinding);
-            //        scoreText.SetValue(DockPanel.DockProperty, Dock.Right);
-
-            //        DockPanel stackPanelLine = new DockPanel();
-            //        stackPanelLine.Children.Add(dateText);
-            //        stackPanelLine.Children.Add(scoreText);
-
-            //        StatsDisplay.Children.Add(stackPanelLine);
-            //    }
         }
     }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace SnakeGame.Model
@@ -17,28 +18,53 @@ namespace SnakeGame.Model
         #region Constructors
         static SnakeGameFileManager()
         {
-            ScoreFileName = "ScoreCounterLog";
+            //ScoreFileName = "ScoreCounterLog";
+            ScoreFileName = "ScoreCounterLog.json";
             DifficultyFileName = "DifficultyLog";
         }
         #endregion
 
         #region Methods
-        public static void SaveStatistics(ScoreCounter newScore, GameDifficulties difficulties)
+        //public static void SaveStatistics(ScoreCounter newScore, GameDifficulties difficulties)
+        //{
+        //    using StreamWriter writer = new StreamWriter(File.Open(ScoreFileName, FileMode.Append));
+        //    {
+        //        writer.WriteLine( difficulties.ToString()+" "+DateTime.Now.ToString("g") + " " + newScore.Score.ToString());
+        //    }
+        //}
+
+        //public static List<string> GetStatistics()
+        //{
+        //    List<string> statistics = new List<string>();
+        //    using (StreamReader reader = new StreamReader(File.Open(ScoreFileName, FileMode.Open)))
+        //    {
+        //        while (!reader.EndOfStream)
+        //        {
+        //            statistics.Add(reader.ReadLine());
+        //        }
+        //    }
+        //    statistics.Reverse();
+        //    return statistics;
+        //}
+
+        public static void SaveStatistics(StatsItem sessionStats)
         {
-            using StreamWriter writer = new StreamWriter(File.Open(ScoreFileName, FileMode.Append));
+            using (StreamWriter writer = new StreamWriter(File.Open(ScoreFileName, FileMode.Append)))
             {
-                writer.WriteLine( difficulties.ToString()+" "+DateTime.Now.ToString("g") + " " + newScore.Score.ToString());
+                writer.WriteLine(JsonSerializer.Serialize(sessionStats));
             }
         }
 
-        public static List<string> GetStatistics()
+        public static List<StatsItem> GetStatistics()
         {
-            List<string> statistics = new List<string>();
+            List<StatsItem> statistics = new List<StatsItem>();
             using (StreamReader reader = new StreamReader(File.Open(ScoreFileName, FileMode.Open)))
             {
                 while (!reader.EndOfStream)
                 {
-                    statistics.Add(reader.ReadLine());
+                    string readItem = reader.ReadLine()??string.Empty;
+                    if (readItem != string.Empty)
+                        statistics.Add(JsonSerializer.Deserialize<StatsItem>(readItem));
                 }
             }
             statistics.Reverse();
@@ -51,7 +77,7 @@ namespace SnakeGame.Model
             {
                 writer.Write(difficulty);
             }
-            
+
         }
 
         public static string GetDifficultyFromFile()
@@ -60,6 +86,7 @@ namespace SnakeGame.Model
             using (StreamReader reader = new StreamReader(File.Open(DifficultyFileName, FileMode.Open)))
             {
                 difficulty = reader.ReadLine();
+
             }
             return difficulty;
         }
