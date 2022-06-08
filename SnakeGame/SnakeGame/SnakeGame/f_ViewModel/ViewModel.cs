@@ -27,7 +27,6 @@ namespace SnakeGame.f_ViewModel
 
 
             Field.MySnake.NotifySnakeIsDead += () => { GameState = GameStates.NotInGame; };
-            //Field.MySnake.NotifySnakeIsDead += () => {  };
             Field.MyFood.NotifyFoodIsEaten += (Food eatenFood) => { ScoreCounter.AddToScore(eatenFood.ScoreValue); };
             NotifyGameStateChanged += StateGameChanged_Handler;
             Timer.Tick += DispatcherTimer_Tick;

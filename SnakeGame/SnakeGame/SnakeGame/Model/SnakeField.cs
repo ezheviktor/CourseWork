@@ -69,7 +69,7 @@ namespace SnakeGame.Model
         //    {
         //        for (int j = 0; j < FieldSize; j++)
         //        {
-        //            Field[i, j].CellType=Cell.CellTypes.EmptyCell;
+        //            Field[i, j].CellType = Cell.CellTypes.EmptyCell;
         //        }
         //    }
         //    //initializing snake

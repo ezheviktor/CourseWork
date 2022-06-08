@@ -40,13 +40,6 @@ namespace SnakeGame
             Closing += SnakeGameWindow_Closing;
 
         }
-
-        private void SnakeGameWindow_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
-        {
-            viewModel.GameState = GameStates.NotInGame;
-        }
-
-
         #endregion
 
         #region Properties
@@ -59,6 +52,11 @@ namespace SnakeGame
         private void GameWindow_ContentRendered(object sender, EventArgs e)
         {
             viewModel.GameState = GameStates.InGame;
+        }
+        private void SnakeGameWindow_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (viewModel.GameState == GameStates.InGame)
+                viewModel.GameState = GameStates.NotInGame;
         }
 
         private void Grid_KeyDown(object sender, KeyEventArgs keyEvent)
@@ -86,10 +84,9 @@ namespace SnakeGame
                     viewModel.GameState = GameStates.InGame;
                     SnakeField.Effect = null;
                     break;
-                //case Key.Space when viewModel.GameState == GameStates.NotInGame:
-                //    viewModel.Field.ResetField();
-                //    viewModel.GameState = GameStates.InGame;
-                //    break;
+                case Key.Space when viewModel.GameState == GameStates.NotInGame:
+                    viewModel.GameState = GameStates.InGame;
+                    break;
             }
         }
         #endregion
