@@ -29,7 +29,7 @@
                 Grid.Column="1" Grid.Row="2">
 
             <Grid  Height="400" Width="400"
-              ShowGridLines="True"
+              ShowGridLines="False"
               Name="SnakeField">
                 <Grid.Resources>
                     <Style TargetType="ColumnDefinition">

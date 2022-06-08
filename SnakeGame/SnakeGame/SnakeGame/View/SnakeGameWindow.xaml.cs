@@ -116,6 +116,7 @@ namespace SnakeGame
                         Source = viewModel.Field[i, j],
                         Path = new PropertyPath($"CellType"),
                         Converter = new SnakeFieldConverter(),
+                        ConverterParameter = new Tuple<int, int>(i, j),
                         UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
                     };
                     SnakeField.Children.Add(innerGrid);

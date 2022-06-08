@@ -18,14 +18,22 @@ namespace SnakeGame
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value == null) throw new ArgumentNullException();
-            switch(value )
+            Tuple<int, int> coords = parameter as Tuple<int, int>;
+            switch (value)
             {
                 case Cell.CellTypes.EmptyCell:
-                    return Brushes.AliceBlue;
+                    {
+                        if ((coords.Item1+coords.Item2) % 2 == 0)
+                            return Brushes.LightGreen/*YellowGreen*/;
+                        else if ((coords.Item1 + coords.Item2) % 2 == 1)
+                            return Brushes.LightCyan/*MediumSeaGreen*/;
+                        else
+                            return Brushes.AliceBlue;
+                    }
                 case Cell.CellTypes.FoodCell:
                     return Brushes.Red;
                 case Cell.CellTypes.SnakeCell:
-                    return Brushes.Green;
+                    return Brushes.DarkOliveGreen;
                 default: return DependencyProperty.UnsetValue;
             }
         }
