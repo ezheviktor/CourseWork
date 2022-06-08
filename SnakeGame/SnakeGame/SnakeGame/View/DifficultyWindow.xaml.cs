@@ -21,11 +21,23 @@ namespace SnakeGame
     /// </summary>
     public partial class DifficultyWindow : Window
     {
-        private ViewModel viewModel;
 
         public DifficultyWindow()
         {
             InitializeComponent();
+            ShowPrevSetDifficulty();
+        }
+
+        private void ShowPrevSetDifficulty()
+        {
+            GameDifficulties prevSetDif = SnakeGameFileManager.GetDifficultyFromFile();
+            foreach (var option in DifficultyOptions.Children)
+            {
+                if (option is RadioButton choice && choice.Content.ToString().Trim() == prevSetDif.ToString())
+                {
+                    choice.SetValue(RadioButton.IsCheckedProperty, true);
+                }
+            }
         }
 
         private void SetDifficulty_Click(object sender, RoutedEventArgs e)

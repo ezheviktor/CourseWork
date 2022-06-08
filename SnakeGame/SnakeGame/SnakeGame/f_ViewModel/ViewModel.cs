@@ -95,21 +95,6 @@ namespace SnakeGame.f_ViewModel
         {
             Field.MySnake.SnakeDirection = newDirect;
         }
-
-        //public GameDifficulties StrToDifficultyConvert(string difficulty)
-        //{
-        //    switch (difficulty)
-        //    {
-        //        case "hard":
-        //            return GameDifficulties.Hard;
-        //        case "medium":
-        //            return GameDifficulties.Medium;
-        //        case "easy":
-        //            return GameDifficulties.Easy;
-        //        default:
-        //            return GameDifficulties.Easy;
-        //    }
-        //}
         #endregion
     }
     enum GameStates
