@@ -22,19 +22,6 @@ namespace SnakeGame
     public partial class StatsWindow : Window
     {
         private List<StatsItem> items;
-        //public StatsWindow()
-        //{
-        //    InitializeComponent();
-        //    List<string> statStringsFromFile = new List<string>(SnakeGameFileManager.GetStatistics());
-        //    statStringsFromFile.RemoveAll((p) => { return p == ""; });
-        //    items = new List<StatsItem>();
-        //    foreach (var item in statStringsFromFile)
-        //    {
-        //        items.Add(new StatsItem(item));
-        //    }
-        //    ListToStatDisplayBinding();
-        //}
-
         public StatsWindow()
         {
             InitializeComponent();

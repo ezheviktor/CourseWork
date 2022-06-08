@@ -20,7 +20,7 @@ namespace SnakeGame.f_ViewModel
         #region Constructors
         public ViewModel()
         {
-            gameDifficulty = StrToDifficultyConvert(SnakeGameFileManager.GetDifficultyFromFile());
+            gameDifficulty = SnakeGameFileManager.GetDifficultyFromFile();
             Field = new SnakeField(gameDifficulty);
             ScoreCounter = new ScoreCounter();
             Timer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(0.25 - 0.0750 * (int)gameDifficulty) };
@@ -96,20 +96,20 @@ namespace SnakeGame.f_ViewModel
             Field.MySnake.SnakeDirection = newDirect;
         }
 
-        public GameDifficulties StrToDifficultyConvert(string difficulty)
-        {
-            switch (difficulty)
-            {
-                case "hard":
-                    return GameDifficulties.Hard;
-                case "medium":
-                    return GameDifficulties.Medium;
-                case "easy":
-                    return GameDifficulties.Easy;
-                default:
-                    return GameDifficulties.Easy;
-            }
-        }
+        //public GameDifficulties StrToDifficultyConvert(string difficulty)
+        //{
+        //    switch (difficulty)
+        //    {
+        //        case "hard":
+        //            return GameDifficulties.Hard;
+        //        case "medium":
+        //            return GameDifficulties.Medium;
+        //        case "easy":
+        //            return GameDifficulties.Easy;
+        //        default:
+        //            return GameDifficulties.Easy;
+        //    }
+        //}
         #endregion
     }
     enum GameStates

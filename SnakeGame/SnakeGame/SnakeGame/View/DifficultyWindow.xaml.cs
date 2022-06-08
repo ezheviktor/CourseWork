@@ -40,7 +40,14 @@ namespace SnakeGame
                 }
             }
             if (difficulty != null)
-                SnakeGameFileManager.SaveDifficultyToFile(difficulty);
+            {
+                if (difficulty == "hard")
+                    SnakeGameFileManager.SaveDifficultyToFile(GameDifficulties.Hard);
+                if(difficulty=="medium")
+                    SnakeGameFileManager.SaveDifficultyToFile(GameDifficulties.Medium);
+                if(difficulty=="easy")
+                    SnakeGameFileManager.SaveDifficultyToFile(GameDifficulties.Easy);
+            }
 
         }
     }

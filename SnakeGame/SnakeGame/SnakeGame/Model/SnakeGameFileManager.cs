@@ -25,27 +25,7 @@ namespace SnakeGame.Model
         #endregion
 
         #region Methods
-        //public static void SaveStatistics(ScoreCounter newScore, GameDifficulties difficulties)
-        //{
-        //    using StreamWriter writer = new StreamWriter(File.Open(ScoreFileName, FileMode.Append));
-        //    {
-        //        writer.WriteLine( difficulties.ToString()+" "+DateTime.Now.ToString("g") + " " + newScore.Score.ToString());
-        //    }
-        //}
 
-        //public static List<string> GetStatistics()
-        //{
-        //    List<string> statistics = new List<string>();
-        //    using (StreamReader reader = new StreamReader(File.Open(ScoreFileName, FileMode.Open)))
-        //    {
-        //        while (!reader.EndOfStream)
-        //        {
-        //            statistics.Add(reader.ReadLine());
-        //        }
-        //    }
-        //    statistics.Reverse();
-        //    return statistics;
-        //}
 
         public static void SaveStatistics(StatsItem sessionStats)
         {
@@ -71,21 +51,21 @@ namespace SnakeGame.Model
             return statistics;
         }
 
-        public static void SaveDifficultyToFile(string difficulty)
+        public static void SaveDifficultyToFile(GameDifficulties difficulty)
         {
             using (StreamWriter writer = new StreamWriter(File.Open(DifficultyFileName, FileMode.Create)))
             {
-                writer.Write(difficulty);
+                writer.Write(JsonSerializer.Serialize( difficulty));
             }
 
         }
 
-        public static string GetDifficultyFromFile()
+        public static GameDifficulties GetDifficultyFromFile()
         {
-            string difficulty;
+            GameDifficulties difficulty;
             using (StreamReader reader = new StreamReader(File.Open(DifficultyFileName, FileMode.Open)))
             {
-                difficulty = reader.ReadLine();
+                difficulty = JsonSerializer.Deserialize<GameDifficulties>(reader.ReadLine());
 
             }
             return difficulty;
