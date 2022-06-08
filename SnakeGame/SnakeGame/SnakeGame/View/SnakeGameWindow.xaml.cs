@@ -37,6 +37,13 @@ namespace SnakeGame
             BindFieldToGrid();
             BindScoreToWindow();
             DifficultyDisplayer.Text = viewModel.GameDifficulty.ToString();
+            Closing += SnakeGameWindow_Closing;
+
+        }
+
+        private void SnakeGameWindow_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
+        {
+            viewModel.GameState = GameStates.NotInGame;
         }
 
 

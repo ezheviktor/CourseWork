@@ -27,7 +27,7 @@ namespace SnakeGame.f_ViewModel
 
 
             Field.MySnake.NotifySnakeIsDead += () => { GameState = GameStates.NotInGame; };
-            Field.MySnake.NotifySnakeIsDead += () => { SnakeGameFileManager.SaveStatistics(new StatsItem(gameDifficulty, DateTime.Now, ScoreCounter.Score)); };
+            //Field.MySnake.NotifySnakeIsDead += () => {  };
             Field.MyFood.NotifyFoodIsEaten += (Food eatenFood) => { ScoreCounter.AddToScore(eatenFood.ScoreValue); };
             NotifyGameStateChanged += StateGameChanged_Handler;
             Timer.Tick += DispatcherTimer_Tick;
@@ -75,6 +75,7 @@ namespace SnakeGame.f_ViewModel
                     break;
                 case GameStates.NotInGame:
                     Timer.Stop();
+                    SnakeGameFileManager.SaveStatistics(new StatsItem(gameDifficulty, DateTime.Now, ScoreCounter.Score));
                     break;
 
             }
