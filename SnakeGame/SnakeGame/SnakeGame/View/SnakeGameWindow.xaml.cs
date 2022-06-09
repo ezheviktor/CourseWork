@@ -37,6 +37,9 @@ namespace SnakeGame
             BindFieldToGrid();
             BindScoreToWindow();
             DifficultyDisplayer.Text = viewModel.GameDifficulty.ToString();
+
+            SetFieldBorderColor(viewModel.GameDifficulty);
+
             Closing += SnakeGameWindow_Closing;
 
         }
@@ -92,6 +95,13 @@ namespace SnakeGame
         #endregion
 
         #region Methods
+        private void SetFieldBorderColor(GameDifficulties difficulty)
+        {
+            if (viewModel.GameDifficulty == GameDifficulties.Hard)
+                FieldBorder.BorderBrush = Brushes.DarkRed;
+            else
+                FieldBorder.BorderBrush = Brushes.SeaGreen;
+        }
         private void BindScoreToWindow()
         {
             Binding binding = new Binding

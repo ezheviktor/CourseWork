@@ -7,7 +7,13 @@
         mc:Ignorable="d"
         Title="Statistics" Height="Auto" MinHeight="100" MaxHeight="200"  Width="300"
         ResizeMode="NoResize"
-        WindowStartupLocation="CenterOwner">
+        WindowStartupLocation="CenterOwner"
+        Background="#FF71CBB4">
+    <Window.Resources>
+        <Style TargetType="ScrollBar">
+            <Setter Property="Background" Value="#FF55C987"/>
+        </Style>
+    </Window.Resources>
 
 
     <Border Margin="10" Grid.RowSpan="2" BorderThickness="1" BorderBrush="DarkOliveGreen" >
@@ -20,9 +26,17 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
+            <Grid.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="FontWeight" Value="Bold"></Setter>
+                    <Setter Property="FontSize" Value="33"></Setter>
+                    <Setter Property="Foreground" Value="#FF70FFBC"/>
+                    <Setter Property="FontFamily" Value="Game Over"/>
+                </Style>
+            </Grid.Resources>
 
-            <Border Grid.Row="0" Background="#FFCCCC" Padding="0 0 17 0">
-                <Grid Name="StatsHeaderRow" ShowGridLines="true" Grid.Row="0"  >
+            <Border Grid.Row="0" Background="SeaGreen" Padding="0 0 17 0">
+                <Grid Name="StatsHeaderRow" ShowGridLines="false" Grid.Row="0"  >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition ></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
@@ -31,6 +45,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
+
                     <TextBlock Grid.Column="0" Grid.Row="0" Text="Difficulty" HorizontalAlignment="Center"></TextBlock>
                     <TextBlock Grid.Column="1" Grid.Row="0" Text="Date" HorizontalAlignment="Center"></TextBlock>
                     <TextBlock Grid.Column="2" Grid.Row="0" Text="Score" HorizontalAlignment="Center"></TextBlock>
@@ -40,12 +55,22 @@
             <ScrollViewer Grid.Row="1" Grid.ColumnSpan="2" 
                     VerticalScrollBarVisibility="Visible">
 
-                <Grid ClipToBounds="True" Name="StatsDisplay"  ShowGridLines="True">
+                <Grid ClipToBounds="True" Name="StatsDisplay"  ShowGridLines="False" Background="#FF55C987">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
+                   
+                    <Grid.Resources>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="FontWeight" Value="Bold"></Setter>
+                            <Setter Property="FontSize" Value="15"></Setter>
+                            <Setter Property="Foreground" Value="#FF1E794E"/>
+                            <Setter Property="FontFamily" Value="DPcomic"/>
+                            <Setter Property="Height" Value="20"/>
+                        </Style>
+                    </Grid.Resources>
                 </Grid>
 
 

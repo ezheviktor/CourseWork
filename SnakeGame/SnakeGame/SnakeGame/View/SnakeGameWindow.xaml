@@ -10,8 +10,9 @@
         WindowStartupLocation="CenterOwner"
         KeyDown="Grid_KeyDown"
         ContentRendered="GameWindow_ContentRendered"
-        x:Name="GameWindow">
-    <Grid >
+        x:Name="GameWindow"
+        ResizeMode="NoResize">
+    <Grid Background="DarkSeaGreen">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="15"></ColumnDefinition>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -25,7 +26,7 @@
         </Grid.RowDefinitions>
 
         <Border BorderThickness="3"
-                BorderBrush="LimeGreen"
+                x:Name="FieldBorder"
                 Grid.Column="1" Grid.Row="2">
 
             <Grid  Height="400" Width="400"
@@ -88,7 +89,17 @@
 
         </Border>
 
-        <StackPanel Grid.Row="1" Grid.Column="1" Height="40">
+
+
+        <StackPanel  Grid.Row="1" Grid.Column="1" Height="40" Background="SeaGreen" >
+            <StackPanel.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="FontWeight" Value="Bold"></Setter>
+                    <Setter Property="FontSize" Value="33"></Setter>
+                    <Setter Property="Foreground" Value="#FF70FFBC"/>
+                    <Setter Property="FontFamily" Value="Game Over"/>
+                </Style>
+            </StackPanel.Resources>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Score: " />
                 <TextBlock Name="ScoreDisplayer" ></TextBlock>
@@ -98,6 +109,7 @@
                 <TextBlock x:Name="DifficultyDisplayer"></TextBlock>
             </StackPanel>
         </StackPanel>
+
 
 
     </Grid>

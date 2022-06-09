@@ -6,7 +6,10 @@
         xmlns:local="clr-namespace:SnakeGame"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="350"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        >
+
     <Grid x:Name="MenuGrid" >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -18,26 +21,61 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
+        <Grid.Background>
+            <RadialGradientBrush GradientOrigin="0.5,0.5">
+                <GradientStop Color="#FF71CBB4" Offset="1" />
+                <GradientStop Color="#FFFCE087" Offset="0" />
+            </RadialGradientBrush>
+        </Grid.Background>
+
+                        
+
 
         <StackPanel Grid.Row="1" Grid.Column="1">
             <StackPanel.Resources>
-                <Style x:Key="MenuButton">
-                    <Setter Property="Button.FontFamily" Value="Arial"/>
-                    <Setter Property="Button.BorderThickness" Value="2"/>
-                    <Setter Property="Button.Height" Value="50"/>
+                <Style TargetType="Button">
+                    <Setter Property="FontFamily" Value="DPComic"/>
+                    <Setter Property="FontSize" Value="20"/>
+                    <Setter Property="Foreground" Value="#FF70FFBC"/>
+                    <Setter Property="BorderBrush" Value="Silver"/>
                 </Style>
+                <ControlTemplate TargetType="Button" x:Key="MyButton">
+                    <Border CornerRadius="25"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="2"
+                    Background="SeaGreen"
+                    Height="50"
+                     >
+                        <ContentControl Margin="{TemplateBinding Padding}"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Content="{TemplateBinding Content}" />
+                        
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="BorderBrush" Value="#FF2AD735"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
             </StackPanel.Resources>
             <Button Content="Play"
-                    Style="{StaticResource MenuButton}"
-                    Click="StartGameClick"/>
+                    Click="StartGameClick"
+                    Template="{StaticResource MyButton}"/>
             <Button Content="Difficulty"
-                    Style="{StaticResource MenuButton}"
-                    Click="DifficultyWindowClick"/>
+                    Click="DifficultyWindowClick"
+                    Template="{StaticResource MyButton}"/>
             <Button Content="Statistics"
-                    Style="{StaticResource MenuButton}"
                     Click="StatsWindowClick"
-                    />
-
+                    Template="{StaticResource MyButton}"/>
         </StackPanel>
+        <TextBlock Grid.Row="0"
+                   Text="SnakeGame"
+                   FontSize="100"
+                   FontFamily="Game Over"
+                   Foreground="Orange"
+                   VerticalAlignment="Top"
+                   HorizontalAlignment="Center" Grid.ColumnSpan="3" Margin="0,55,0,0"/>
+
     </Grid>
 </Window>

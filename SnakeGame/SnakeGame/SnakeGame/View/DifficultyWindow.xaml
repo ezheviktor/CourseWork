@@ -5,12 +5,46 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SnakeGame"
         mc:Ignorable="d"
-        Title="Difficulty" Height="170" Width="250"
-        WindowStartupLocation="CenterOwner">
+        Title="Difficulty" Height="180" Width="250"
+        WindowStartupLocation="CenterOwner"
+        Background="#FF71CBB4">
+    
     <Window.Resources>
+        <Style TargetType="RadioButton">
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+            <Setter Property="FontSize" Value="35"></Setter>
+            <Setter Property="Foreground" Value="#FF09624F"/>
+            <Setter Property="FontFamily" Value="Game Over"/>
+            
+        </Style>
         
+        <Style TargetType="Button">
+            <Setter Property="FontFamily" Value="DPComic"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Foreground" Value="#FF70FFBC"/>
+            <Setter Property="BorderBrush" Value="Silver"/>
+        </Style>
+        <ControlTemplate TargetType="Button" x:Key="MyButton">
+            <Border CornerRadius="10"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="2"
+                    Background="SeaGreen"
+                    Height="Auto"
+                     >
+                <ContentControl Margin="{TemplateBinding Padding}"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Content="{TemplateBinding Content}" />
+
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="BorderBrush" Value="#FF2AD735"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
     </Window.Resources>
-    <Border Margin="10">
+    <Border Margin="10" BorderBrush="SeaGreen" BorderThickness="2">
         <Grid >
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>
@@ -22,9 +56,9 @@
                 <RadioButton Content="Medium"></RadioButton>
                 <RadioButton Content="Easy"></RadioButton>
             </StackPanel>
-            <WrapPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" >
-                <Button IsCancel="True" MinWidth="75" Margin="0,10,10,0">Cancel</Button>
-                <Button IsDefault="True" Click="SetDifficulty_Click" MinWidth="75" Margin="0,10,10,0">Set</Button>
+            <WrapPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" >
+                <Button IsCancel="True" MinWidth="75" Margin="0,10,10,0" Template="{StaticResource MyButton}">Cancel</Button>
+                <Button IsDefault="True" Click="SetDifficulty_Click" Margin="0,10,10,0" MinWidth="75"  Template="{StaticResource MyButton}">Set</Button>
             </WrapPanel>
         </Grid>
     </Border>
