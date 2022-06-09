@@ -20,7 +20,15 @@ namespace SnakeGame.f_ViewModel
         #region Constructors
         public ViewModel()
         {
-            gameDifficulty = SnakeGameFileManager.GetDifficultyFromFile();
+            try
+            {
+                gameDifficulty = SnakeGameFileManager.GetDifficultyFromFile();
+            }
+            catch(Exception)
+            {
+                gameDifficulty = GameDifficulties.Easy;
+            }
+
             Field = new SnakeField(gameDifficulty);
             ScoreCounter = new ScoreCounter();
             Timer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(0.25 - 0.0750 * (int)gameDifficulty) };

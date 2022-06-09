@@ -8,12 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\Game On_PersonalUseOnly.ttf" />
     <None Remove="Resources\game_over.ttf" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Resources\Game On_PersonalUseOnly.ttf" />
     <Content Include="Resources\game_over.ttf" />
   </ItemGroup>
 

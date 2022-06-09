@@ -10,13 +10,19 @@ namespace SnakeGame.Model
     internal class Cell : INotifyPropertyChanged
     {
         #region Fields
-        public enum CellTypes
-        {
-            EmptyCell,
-            FoodCell,
-            SnakeCell,
-        }
         private CellTypes cellType;
+        #endregion
+
+        #region Constructors
+        public Cell(CellTypes cellType, int RowCoord, int ColCoord)
+        {
+            CellType = cellType;
+            this.RowCoord = RowCoord;
+            this.ColCoord = ColCoord;
+        }
+        #endregion
+
+        #region Properties
         public CellTypes CellType
         {
             get => cellType;
@@ -31,15 +37,11 @@ namespace SnakeGame.Model
         public int RowCoord { get; set; }
         #endregion
 
-        #region Constructors
-        public Cell(CellTypes cellType, int RowCoord, int ColCoord)
-        {
-            CellType = cellType;
-            this.RowCoord = RowCoord;
-            this.ColCoord = ColCoord;
-        }
-
+        #region Events
         public event PropertyChangedEventHandler? PropertyChanged;
+        #endregion
+
+        #region Handlers
         protected void OnPropertyChanged(string propertyName)
         {
               PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -48,5 +50,11 @@ namespace SnakeGame.Model
 
         #region Methods
         #endregion
+    }
+    enum CellTypes
+    {
+        EmptyCell,
+        FoodCell,
+        SnakeCell,
     }
 }

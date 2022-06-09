@@ -11,22 +11,8 @@ namespace SnakeGame.Model
 {
     internal class SnakeField 
     {
-        #region FieldsAndProperties
-        public GameDifficulties Difficulty { get; set; }
-        public int FieldSize { get; } = 20;
-
+        #region Fields
         private Cell[,] field;
-        private Cell[,] Field
-        {
-            get => field;
-            set
-            {
-                field = value;
-            }
-        }
-        public Snake MySnake { get; set; }
-        public Food MyFood { get; set; }
-   
         #endregion
 
         #region Constructors
@@ -35,12 +21,12 @@ namespace SnakeGame.Model
             //setting difficulty
             Difficulty = difficulty;
             //emptying field
-            Field = new Cell[FieldSize, FieldSize];
+            field = new Cell[FieldSize, FieldSize];
             for (int i = 0; i < FieldSize; i++)
             {
                 for (int j = 0; j < FieldSize; j++)
                 {
-                    Field[i, j] = new Cell(Cell.CellTypes.EmptyCell, i, j);
+                    field[i, j] = new Cell(CellTypes.EmptyCell, i, j);
                 }
             }
             //initializing snake
@@ -50,12 +36,18 @@ namespace SnakeGame.Model
         }
         #endregion
 
+        #region Properties
+        public int FieldSize { get; } = 20;
+        public Snake MySnake { get; set; }
+        public Food MyFood { get; set; }
+        public GameDifficulties Difficulty { get; set; }
+        #endregion
+
         #region Methods
         public Cell this[int rowInd, int colInd]
         {
-            get { return Field[rowInd, colInd]; }
+            get { return field[rowInd, colInd]; }
         }
-
 
         public void SnakeFieldUpdate()
         {
@@ -86,7 +78,7 @@ namespace SnakeGame.Model
             {
                 for (int j = 0; j < FieldSize; j++)
                 {
-                    Debug.Write((int)Field[i, j].CellType + " ");
+                    Debug.Write((int)field[i, j].CellType + " ");
                 }
                 Debug.WriteLine("\n");
             }

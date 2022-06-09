@@ -60,6 +60,9 @@ namespace SnakeGame.Model
 
         #region Events
         public event PropertyChangedEventHandler? PropertyChanged;
+        #endregion
+
+        #region Handlers
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

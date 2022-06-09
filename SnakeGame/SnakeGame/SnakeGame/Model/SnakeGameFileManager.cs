@@ -11,17 +11,16 @@ namespace SnakeGame.Model
     internal static class SnakeGameFileManager
     {
         #region Fields
-        private static string ScoreFileName { get; set; }
-        private static string DifficultyFileName { get; set; }
+        private static string StatsFileName { get; set; } = "ScoreCounterLog.json";
+        private static string DifficultyFileName { get; set; } = "DifficultyLog.json";
         #endregion
 
         #region Constructors
-        static SnakeGameFileManager()
-        {
-            //ScoreFileName = "ScoreCounterLog";
-            ScoreFileName = "ScoreCounterLog.json";
-            DifficultyFileName = "DifficultyLog";
-        }
+        //static SnakeGameFileManager()
+        //{
+        //    ScoreFileName 
+        //    DifficultyFileName 
+        //}
         #endregion
 
         #region Methods
@@ -29,7 +28,7 @@ namespace SnakeGame.Model
 
         public static void SaveStatistics(StatsItem sessionStats)
         {
-            using (StreamWriter writer = new StreamWriter(File.Open(ScoreFileName, FileMode.Append)))
+            using (StreamWriter writer = new StreamWriter(File.Open(StatsFileName, FileMode.Append)))
             {
                 writer.WriteLine(JsonSerializer.Serialize(sessionStats));
             }
@@ -38,11 +37,11 @@ namespace SnakeGame.Model
         public static List<StatsItem> GetStatistics()
         {
             List<StatsItem> statistics = new List<StatsItem>();
-            using (StreamReader reader = new StreamReader(File.Open(ScoreFileName, FileMode.Open)))
+            using (StreamReader reader = new StreamReader(File.Open(StatsFileName, FileMode.Open)))
             {
                 while (!reader.EndOfStream)
                 {
-                    string readItem = reader.ReadLine()??string.Empty;
+                    string readItem = reader.ReadLine() ?? string.Empty;
                     if (readItem != string.Empty)
                         statistics.Add(JsonSerializer.Deserialize<StatsItem>(readItem));
                 }
@@ -55,7 +54,7 @@ namespace SnakeGame.Model
         {
             using (StreamWriter writer = new StreamWriter(File.Open(DifficultyFileName, FileMode.Create)))
             {
-                writer.Write(JsonSerializer.Serialize( difficulty));
+                writer.Write(JsonSerializer.Serialize(difficulty));
             }
 
         }
@@ -65,8 +64,11 @@ namespace SnakeGame.Model
             GameDifficulties difficulty;
             using (StreamReader reader = new StreamReader(File.Open(DifficultyFileName, FileMode.Open)))
             {
-                difficulty = JsonSerializer.Deserialize<GameDifficulties>(reader.ReadLine());
-
+                string jsonDiff = reader.ReadLine();
+                if (jsonDiff != null)
+                    difficulty = JsonSerializer.Deserialize<GameDifficulties>(jsonDiff);
+                else
+                    throw new Exception("Difficulty file is empty.");
             }
             return difficulty;
         }

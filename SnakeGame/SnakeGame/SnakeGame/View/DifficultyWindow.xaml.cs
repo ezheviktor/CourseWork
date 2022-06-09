@@ -30,7 +30,16 @@ namespace SnakeGame
 
         private void ShowPrevSetDifficulty()
         {
-            GameDifficulties prevSetDif = SnakeGameFileManager.GetDifficultyFromFile();
+            GameDifficulties prevSetDif;
+            try
+            {
+                prevSetDif = SnakeGameFileManager.GetDifficultyFromFile();
+
+            }
+            catch (Exception)
+            {
+                prevSetDif = GameDifficulties.Easy;
+            }
             foreach (var option in DifficultyOptions.Children)
             {
                 if (option is RadioButton choice && choice.Content.ToString().Trim() == prevSetDif.ToString())
@@ -55,9 +64,9 @@ namespace SnakeGame
             {
                 if (difficulty == "hard")
                     SnakeGameFileManager.SaveDifficultyToFile(GameDifficulties.Hard);
-                if(difficulty=="medium")
+                if (difficulty == "medium")
                     SnakeGameFileManager.SaveDifficultyToFile(GameDifficulties.Medium);
-                if(difficulty=="easy")
+                if (difficulty == "easy")
                     SnakeGameFileManager.SaveDifficultyToFile(GameDifficulties.Easy);
             }
 

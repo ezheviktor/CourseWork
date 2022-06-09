@@ -21,7 +21,7 @@ namespace SnakeGame
             Tuple<int, int> coords = parameter as Tuple<int, int>;
             switch (value)
             {
-                case Cell.CellTypes.EmptyCell:
+                case CellTypes.EmptyCell:
                     {
                         if ((coords.Item1+coords.Item2) % 2 == 0)
                             return Brushes.LightGreen/*YellowGreen*/;
@@ -30,9 +30,9 @@ namespace SnakeGame
                         else
                             return Brushes.AliceBlue;
                     }
-                case Cell.CellTypes.FoodCell:
+                case CellTypes.FoodCell:
                     return Brushes.Red;
-                case Cell.CellTypes.SnakeCell:
+                case CellTypes.SnakeCell:
                     return Brushes.DarkOliveGreen;
                 default: return DependencyProperty.UnsetValue;
             }

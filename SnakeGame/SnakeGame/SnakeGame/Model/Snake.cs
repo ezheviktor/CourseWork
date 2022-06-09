@@ -9,13 +9,8 @@ namespace SnakeGame.Model
 {
     internal class Snake
     {
-        #region Events
-        public event Action NotifySnakeIsDead;
-        #endregion
-
         #region Fields
         private bool canChangeDirection; //fixes bug of changing direction twice per update
-
         private MovementDirections snakeDirection;
         private bool isDead;
         private int snakeInitLength = 4;
@@ -71,10 +66,14 @@ namespace SnakeGame.Model
         }
         #endregion
 
+        #region Events
+        public event Action NotifySnakeIsDead;
+        #endregion
+
         #region Methods
         public void RemoveCellAt(int index)
         {
-            SnakeCells[index].CellType = Cell.CellTypes.EmptyCell;
+            SnakeCells[index].CellType = CellTypes.EmptyCell;
             SnakeCells.RemoveAt(index);
         }
 
@@ -88,7 +87,7 @@ namespace SnakeGame.Model
                 SnakeCells.Insert(snakeHeadIndex, cell);
             else if (index == SnakeTailIndex)
                 SnakeCells.Insert(SnakeTailIndex, cell);
-            cell.CellType = Cell.CellTypes.SnakeCell;
+            cell.CellType = CellTypes.SnakeCell;
         }
 
         public Cell GetNextCell()
@@ -147,13 +146,13 @@ namespace SnakeGame.Model
             {
                 switch (NextCell.CellType)
                 {
-                    case Cell.CellTypes.EmptyCell:
+                    case CellTypes.EmptyCell:
                         MoveOneStep();
                         break;
-                    case Cell.CellTypes.FoodCell:
+                    case CellTypes.FoodCell:
                         Eat();
                         break;
-                    case Cell.CellTypes.SnakeCell:
+                    case CellTypes.SnakeCell:
                         IsDead = true;
                         break;
                 }
