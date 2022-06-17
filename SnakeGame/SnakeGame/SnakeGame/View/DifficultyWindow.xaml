@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         Title="Difficulty" Height="180" Width="250"
         WindowStartupLocation="CenterOwner"
-        Background="#FF71CBB4">
+        Background="#FF71CBB4"
+        ResizeMode="NoResize">
     
     <Window.Resources>
         <Style TargetType="RadioButton">

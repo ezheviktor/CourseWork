@@ -19,8 +19,6 @@ namespace SnakeGame
         {
             MainWindow window = new MainWindow();
             window.Show();
-            //SnakeField field = new SnakeField(GameDifficulties.Easy);
-            //field.TestCheckBorderCrossing();
         }
     }
 

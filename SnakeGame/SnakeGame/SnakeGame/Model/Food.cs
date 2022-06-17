@@ -13,7 +13,7 @@ namespace SnakeGame.Model
         #endregion
 
         #region Constructors
-        public Food(SnakeField field)
+        public Food(Field field)
         {
             Field = field;
             ChooseScoreValue();
@@ -33,7 +33,7 @@ namespace SnakeGame.Model
             }
         }
         public int ScoreValue { get; set; }
-        public SnakeField Field { get; init; }
+        public Field Field { get; init; }
         public Cell FoodCell { get; set; }
         #endregion
 
@@ -51,17 +51,21 @@ namespace SnakeGame.Model
             else if (Field.Difficulty == GameDifficulties.Hard)
                 ScoreValue = 300;
         }
-        public void GenerateFood() //this method is not taking into account the case when all field is filled with snake and there is no empty place for new fruit
+        public void GenerateFood()
         {
-            Random random = new Random();
-            Cell RandomCellOnField;
-            do
+            if (!Field.FieldIsFull())
             {
-                RandomCellOnField = Field[random.Next(0, Field.FieldSize), random.Next(0, Field.FieldSize)];
-            } while (RandomCellOnField.CellType != CellTypes.EmptyCell);
-            FoodCell = RandomCellOnField;
-            FoodCell.CellType = CellTypes.FoodCell;
-            IsEaten = false;
+                Random random = new Random();
+                Cell RandomCellOnField;
+
+                do
+                {
+                    RandomCellOnField = Field[random.Next(0, Field.FieldSize), random.Next(0, Field.FieldSize)];
+                } while (RandomCellOnField.CellType != CellTypes.EmptyCell);
+                FoodCell = RandomCellOnField;
+                FoodCell.CellType = CellTypes.FoodCell;
+                IsEaten = false;
+            }
         }
         public void UpdateFood()
         {

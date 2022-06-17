@@ -29,13 +29,13 @@ namespace SnakeGame.f_ViewModel
                 gameDifficulty = GameDifficulties.Easy;
             }
 
-            Field = new SnakeField(gameDifficulty);
+            Field = new Field(gameDifficulty);
             ScoreCounter = new ScoreCounter();
             Timer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(0.25 - 0.0750 * (int)gameDifficulty) };
 
 
-            Field.MySnake.NotifySnakeIsDead += () => { GameState = GameStates.NotInGame; };
-            Field.MyFood.NotifyFoodIsEaten += (Food eatenFood) => { ScoreCounter.AddToScore(eatenFood.ScoreValue); };
+            Field.FieldSnake.NotifySnakeIsDead += () => { GameState = GameStates.NotInGame; };
+            Field.FieldFood.NotifyFoodIsEaten += (Food eatenFood) => { ScoreCounter.AddToScore(eatenFood.ScoreValue); };
             NotifyGameStateChanged += StateGameChanged_Handler;
             Timer.Tick += DispatcherTimer_Tick;
         }
@@ -43,7 +43,7 @@ namespace SnakeGame.f_ViewModel
         #endregion
 
         #region Properties
-        internal SnakeField Field { get; set; }
+        internal Field Field { get; set; }
         internal ScoreCounter ScoreCounter { get; set; }
         internal DispatcherTimer Timer { get; set; }
         internal GameStates GameState
@@ -101,7 +101,7 @@ namespace SnakeGame.f_ViewModel
 
         public void ChangeSnakeDirection(MovementDirections newDirect)
         {
-            Field.MySnake.SnakeDirection = newDirect;
+            Field.FieldSnake.SnakeDirection = newDirect;
         }
         #endregion
     }

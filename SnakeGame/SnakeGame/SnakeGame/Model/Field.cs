@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace SnakeGame.Model
 {
-    internal class SnakeField 
+    internal class Field 
     {
         #region Fields
         private Cell[,] field;
         #endregion
 
         #region Constructors
-        public SnakeField(GameDifficulties difficulty)
+        public Field(GameDifficulties difficulty)
         {
             //setting difficulty
             Difficulty = difficulty;
@@ -30,16 +30,16 @@ namespace SnakeGame.Model
                 }
             }
             //initializing snake
-            MySnake = new Snake(this);
+            FieldSnake = new Snake(this);
             //initializing food
-            MyFood = new Food(this);
+            FieldFood = new Food(this);
         }
         #endregion
 
         #region Properties
         public int FieldSize { get; } = 20;
-        public Snake MySnake { get; set; }
-        public Food MyFood { get; set; }
+        public Snake FieldSnake { get; set; }
+        public Food FieldFood { get; set; }
         public GameDifficulties Difficulty { get; set; }
         #endregion
 
@@ -51,10 +51,23 @@ namespace SnakeGame.Model
 
         public void SnakeFieldUpdate()
         {
-            MySnake.SnakeUpdate();
-            MyFood.UpdateFood();
+            FieldSnake.SnakeUpdate();
+            FieldFood.UpdateFood();
         }
 
+        public bool FieldIsFull()
+        {
+            bool result= true;
+            for (int i = 0; i < FieldSize; i++)
+            {
+                for (int j = 0; j < FieldSize; j++)
+                {
+                    if (field[i, j].CellType == CellTypes.EmptyCell)
+                        result = false;
+                }
+            }
+            return result;
+        }
         //public void ResetField()
         //{
         //    for (int i = 0; i < FieldSize; i++)
@@ -71,49 +84,7 @@ namespace SnakeGame.Model
         //}
         #endregion
 
-        #region Test
-        public void TestFieldDebuggerDisplay()
-        {
-            for (int i = 0; i < FieldSize; i++)
-            {
-                for (int j = 0; j < FieldSize; j++)
-                {
-                    Debug.Write((int)field[i, j].CellType + " ");
-                }
-                Debug.WriteLine("\n");
-            }
-            Debug.WriteLine("----------------------------------------------------------------------");
-            Debug.WriteLine("");
-            Debug.WriteLine("");
-        }
-        public void TestCheckBorderCrossing()
-        {
-            for (int i = 0; i < 15; i++)
-            {
-                TestFieldDebuggerDisplay();
-                SnakeFieldUpdate();
-            }
-        }
-        public void TestCheckSnakeDeath()
-        {
-            TestFieldDebuggerDisplay();
 
-            MySnake.SnakeDirection = MovementDirections.Up;
-            SnakeFieldUpdate();
-            Debug.WriteLine(MySnake.IsDead);
-            TestFieldDebuggerDisplay();
-
-            MySnake.SnakeDirection = MovementDirections.Right;
-            SnakeFieldUpdate();
-            Debug.WriteLine(MySnake.IsDead);
-            TestFieldDebuggerDisplay();
-
-            MySnake.SnakeDirection = MovementDirections.Down;
-            SnakeFieldUpdate();
-            Debug.WriteLine(MySnake.IsDead);
-            TestFieldDebuggerDisplay();
-        }
-        #endregion
     }
     enum GameDifficulties
     {

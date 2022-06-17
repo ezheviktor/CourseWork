@@ -18,7 +18,7 @@ namespace SnakeGame.Model
         #endregion
 
         #region Constructors
-        public Snake(SnakeField field)
+        public Snake(Field field)
         {
             //reference to the field we create snake in
             Field = field;
@@ -41,7 +41,7 @@ namespace SnakeGame.Model
 
         #region Properties
         public List<Cell> SnakeCells { get; set; }
-        public SnakeField Field { get; init; }
+        public Field Field { get; init; }
         public MovementDirections SnakeDirection //needs refactoring to make logic more transparent
         {
             get { return snakeDirection; }
@@ -80,14 +80,17 @@ namespace SnakeGame.Model
         public void AddCellAt(int index, Cell cell)
         {
             int SnakeTailIndex = SnakeCells.Count;
-            if (index != snakeHeadIndex && index != SnakeTailIndex)
-                throw new Exception("Can`t add cell to the middle of the snake");
+            //if (index != snakeHeadIndex && index != SnakeTailIndex)
+            //    throw new Exception("Can`t add cell to the middle of the snake");
 
+            if(index==snakeHeadIndex|| index==SnakeTailIndex)
+            {
             if (index == snakeHeadIndex)
                 SnakeCells.Insert(snakeHeadIndex, cell);
             else if (index == SnakeTailIndex)
                 SnakeCells.Insert(SnakeTailIndex, cell);
             cell.CellType = CellTypes.SnakeCell;
+            }
         }
 
         public Cell GetNextCell()
@@ -115,7 +118,7 @@ namespace SnakeGame.Model
 
             //this conditional doesn`t need to be here(needed refactoring)
             if (Field.Difficulty == GameDifficulties.Hard &&
-                (RowCoord > Field.FieldSize-1 || RowCoord < 0 || ColCoord > Field.FieldSize-1 || ColCoord < 0))
+                (RowCoord > Field.FieldSize - 1 || RowCoord < 0 || ColCoord > Field.FieldSize - 1 || ColCoord < 0))
             {
                 IsDead = true;
             }
@@ -126,18 +129,18 @@ namespace SnakeGame.Model
             return Field[RowCoord, ColCoord];
         }
 
-        public void MoveOneStep()
+        public void MoveOneStep(Cell nextCell)
         {
             RemoveCellAt(SnakeCells.Count - 1);
-            AddCellAt(snakeHeadIndex, GetNextCell());
+            AddCellAt(snakeHeadIndex, nextCell);
         }
 
-        public void Eat()
+        public void Eat(Cell NextCell)
         {
             Cell GrowingCell = SnakeCells[SnakeCells.Count - 1];
-            MoveOneStep();
+            MoveOneStep(NextCell);
             AddCellAt(SnakeCells.Count, GrowingCell);
-            Field.MyFood.IsEaten = true;
+            Field.FieldFood.IsEaten = true;
         }
         public void SnakeUpdate()
         {
@@ -147,10 +150,10 @@ namespace SnakeGame.Model
                 switch (NextCell.CellType)
                 {
                     case CellTypes.EmptyCell:
-                        MoveOneStep();
+                        MoveOneStep(NextCell);
                         break;
                     case CellTypes.FoodCell:
-                        Eat();
+                        Eat(NextCell);
                         break;
                     case CellTypes.SnakeCell:
                         IsDead = true;

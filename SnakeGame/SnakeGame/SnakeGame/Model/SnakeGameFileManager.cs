@@ -16,11 +16,6 @@ namespace SnakeGame.Model
         #endregion
 
         #region Constructors
-        //static SnakeGameFileManager()
-        //{
-        //    ScoreFileName 
-        //    DifficultyFileName 
-        //}
         #endregion
 
         #region Methods
